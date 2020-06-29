@@ -1,2 +1,5 @@
-coco_captions/
-data/*
+*.out
+*.sh
+/data/*
+/coco_captions/
+*/model/

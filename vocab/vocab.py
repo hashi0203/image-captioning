@@ -3,20 +3,24 @@ from pycocotools.coco import COCO
 from collections import Counter
 import pickle
 import os
+import re
 
-def preprocess_caption():
-	cdir = os.path.dirname(__file__)+'/'
+def preprocess_caption(opt):
+	cdir = os.path.dirname(os.path.abspath(__file__))+'/'
 	caption_file = cdir + '../data/train/captions_train2014.json'
 	vocab_files = ['id_to_word.pkl', 'word_to_id.pkl', 'filename_token.pkl', 'id_to_image.pkl', 'image_to_id.pkl', 'imageid_token.pkl']
 	vocab_files = [cdir + f for f in vocab_files] 
-	# do nothing if vocab files exist and are newer
-	flag = 0
-	for f in vocab_files:
-		if not(os.path.isfile(f) and os.path.getmtime(caption_file) < os.path.getmtime(f)):
-			flag = 1
-			break
+	# # do nothing if vocab files exist and are newer
+	# flag = 0
+	# for f in vocab_files:
+	# 	if not(os.path.isfile(f) and os.path.getmtime(caption_file) < os.path.getmtime(f) and os.path.getmtime(__file__) < os.path.getmtime(f)):
+	# 		flag = 1
+	# 		break
 
-	if flag == 0:
+	# if flag == 0:
+	# 	print('vocab files are not changed')
+	# 	return 
+	if opt:
 		print('vocab files are not changed')
 		return 
 	
@@ -30,6 +34,12 @@ def preprocess_caption():
 	
 	for key in anns_keys:
 		caption = coco.anns[key]['caption']
+		caption = re.sub(r'\'d'," had", caption)
+		caption = re.sub(r'\'m'," am", caption)
+		caption = re.sub(r'\'s'," is", caption)
+		caption = re.sub(r'[&]+'," and ", caption)
+		caption = re.sub(r'[!.,:;#$>\'\`\?\-\(\)\[\]]+'," ", caption)
+
 		tokens = tokenize.word_tokenize(caption.lower())
 		if tokens[-1] == '.':
 			tokens = tokens[:-1]
@@ -46,11 +56,11 @@ def preprocess_caption():
 	# extract words which appear more than twice
 	common = freq.most_common()
 	vocab = sorted([t for t,c in common if c>=3])
-	# add padding, start, end, and unknown tokens
-	vocab.append('<pad>')
+	# add start, end, unknown, and padding tokens
 	vocab.append('<start>')
 	vocab.append('<end>')
 	vocab.append('<unk>')
+	vocab.append('<pad>')
 	
 	# add start token before and end token after the sentence and add padding until length of each sentences is 15
 	id_to_word = {i+1:t for i,t in enumerate(vocab)}
@@ -69,7 +79,7 @@ def preprocess_caption():
 	with open(vocab_files[0], 'wb') as f:
 		pickle.dump(id_to_word, f)
 	
-	with open(vocab_files[2], 'wb') as f:
+	with open(vocab_files[1], 'wb') as f:
 		pickle.dump(word_to_id, f)
 	
 	with open(vocab_files[2], 'wb') as f:
@@ -102,3 +112,31 @@ def preprocess_caption():
 	
 	with open(vocab_files[5], 'wb') as f:
 		pickle.dump(imageid_token, f)
+
+def tokenize_caption(sentences):
+	cdir = os.path.dirname(os.path.abspath(__file__))+'/'
+
+	# change all characters to lowercase, remove periods and extract sentences shorter than 14 words
+	ret = []
+	for sent in sentences:
+		tokens = tokenize.word_tokenize(sent.lower())
+		if tokens[-1] == '.':
+			tokens = tokens[:-1]
+		if len(tokens) <= 13:
+			ret.append(tokens)	
+	
+	# add start token before and end token after the sentence and add padding until length of each sentences is 15
+	with open(cdir+'id_to_word.pkl', 'rb') as f:
+		id_to_word = pickle.load(f)
+
+	with open(cdir+'word_to_id.pkl', 'rb') as f:
+		word_to_id = pickle.load(f)
+	
+	for i in range(len(ret)):
+		sent = ['<start>'] + ret[i] + ['<end>']
+		sent_id = [word_to_id[t] if (t in word_to_id) else word_to_id['<unk>'] for t in sent]
+		if (len(sent_id)) < 15:
+			sent_id = sent_id + [word_to_id['<pad>']] * (15-len(sent_id))
+		ret[i] = sent_id
+	
+	return ret	
