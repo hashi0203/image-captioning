@@ -1,5 +1,5 @@
 *.out
 *.sh
 /data/*
-/coco_captions/
+/coco_caption/
 */model/
