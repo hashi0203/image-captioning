@@ -1,5 +1,6 @@
 import datetime
 import torch
+from torch import nn
 from torch.nn.utils.rnn import pack_padded_sequence
 from model import EncoderCNN
 from model import DecoderRNN
@@ -10,8 +11,7 @@ import numpy as np
 from tqdm import tqdm
 
 def date_print(str):
-    print("[", datetime.datetime.now(), "]:", str)
-
+    print('[{:%Y-%m-%d %H:%M:%S}]: {}'.format(datetime.datetime.now(), str))
 
 cdir = os.path.dirname(os.path.abspath(__file__))+'/'
 
@@ -63,7 +63,7 @@ for epoch in range(NUM_EPOCHS):
             optimizer.step()
 
         # Print log info
-        date_print('Epoch [{}], Loss: {:.4f}, Perplexity: {:5.4f}'.format(epoch, loss.item(), np.exp(loss.item()))) 
+        date_print('Epoch {}, Loss: {:.4f}, Perplexity: {:5.4f}'.format(epoch+1, loss.item(), np.exp(loss.item()))) 
             
         # Save the model checkpoints
         model_path = '{}model/encoder-{}-{}-{}-{}-{}.pth'.format(cdir,epoch+1,EMBEDDING_DIM,HIDDEN_DIM,VOCAB_SIZE,NUM_LAYERS)
