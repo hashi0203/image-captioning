@@ -1,14 +1,22 @@
+import datetime
 import torch
 import torch.nn as nn
 from torchvision import models
 import torchvision.transforms as transforms
 import torchvision.datasets as dset
-# from torch.nn.utils.rnn import pack_padded_sequence
+from torch.nn.utils.rnn import pack_padded_sequence
+from pycocotools.coco import COCO
 import os
 import pickle
+from PIL import Image
 import numpy as np
 from tqdm import tqdm
+from nltk import tokenize
+import re
 import vocab
+
+def date_print(str):
+    print("[", datetime.datetime.now(), "]:", str)
 
 class EncoderCNN(nn.Module):
     def __init__(self, EMBEDDING_DIM):
@@ -42,7 +50,7 @@ class DecoderRNN(nn.Module):
         """Decode image feature vectors and generates captions."""
         embeddings = self.embed(captions)
         embeddings = torch.cat((features.unsqueeze(1), embeddings), 1)
-        # packed = pack_padded_sequence(embeddings, lengths, batch_first=True) 
+        packed = pack_padded_sequence(embeddings, lengths, batch_first=True) 
         hiddens, _ = self.lstm(packed)
         outputs = self.linear(hiddens[0])
         return outputs
@@ -61,6 +69,75 @@ class DecoderRNN(nn.Module):
         sampled_ids = torch.stack(sampled_ids, 1)                # sampled_ids: (batch_size, max_seq_length)
         return sampled_ids
 
+def tokenize_caption(sentences):
+	cdir = os.path.dirname(os.path.abspath(__file__))+'/'
+
+	# change all characters to lowercase, remove periods and extract sentences shorter than 14 words
+	ret = []
+	for caption in sentences:
+		caption = re.sub(r'\'d'," had", caption)
+		caption = re.sub(r'\'m'," am", caption)
+		caption = re.sub(r'\'s'," is", caption)
+		caption = re.sub(r'[&]+'," and ", caption)
+		caption = re.sub(r'[!.,:;#$>\'\`\?\-\(\)\[\]]+'," ", caption)
+		tokens = tokenize.word_tokenize(caption.lower())
+		if tokens[-1] == '.':
+			tokens = tokens[:-1]
+		# if len(tokens) <= 13:
+		ret.append(tokens)	
+	
+	# add start token before and end token after the sentence and add padding until length of each sentences is 15
+	with open(cdir+'../vocab/word_to_id.pkl', 'rb') as f:
+		word_to_id = pickle.load(f)
+	
+	for i in range(len(ret)):
+		sent = ['<start>'] + ret[i] + ['<end>']
+		sent_id = [word_to_id[t] if (t in word_to_id) else word_to_id['<unk>'] for t in sent]
+		# if (len(sent_id)) < 15:
+		# 	sent_id = sent_id + [word_to_id['<pad>']] * (15-len(sent_id))
+		ret[i] = sent_id
+	
+	return ret	
+
+def load_dataset(root, annFile, transform):
+    coco = COCO(annFile)
+    ann_keys = coco.anns.keys()
+
+    data = []
+    with tqdm(ann_keys) as pbar:
+        pbar.set_description("[Data Loading]")
+        for i,key in enumerate(pbar):
+            if i > 10241:
+                break
+            caption = coco.anns[key]['caption']
+            img_id = coco.anns[key]['image_id']
+            path = coco.loadImgs(img_id)[0]['file_name']
+
+            image = Image.open(os.path.join(root, path)).convert('RGB')
+            if transform is not None:
+                image = transform(image)
+
+            # Convert caption (string) to word ids.
+            caption = tokenize_caption([caption])
+            target = torch.Tensor(caption[0])
+            data += [(image, target)]
+    return data
+
+def collate_fn(data):
+    data.sort(key=lambda x: len(x[1]), reverse=True)
+    images, captions = zip(*data)
+    
+    # add 1D to make 4D tensor
+    images = torch.stack(images, 0)
+
+    lengths = [len(c) for c in captions]
+    targets = torch.zeros(len(captions), max(lengths)).long()
+    for i,c in enumerate(captions):
+        end = lengths[i]
+        targets[i,:end] = c[:end]
+    return images, targets, lengths
+
+
 cdir = os.path.dirname(os.path.abspath(__file__))+'/'
 with open(cdir+'../vocab/word_to_id.pkl', 'rb') as f:
     word_to_id = pickle.load(f)
@@ -68,50 +145,62 @@ with open(cdir+'../vocab/filename_token.pkl', 'rb') as f:
     filename_token = pickle.load(f)
 
 dev = 'cuda' if torch.cuda.is_available() else 'cpu'
-print("Running in "+dev+".")
+date_print("Running in "+dev+".")
 device = torch.device(dev)
-LEARNING_RATE = 0.01
-BATCH_SIZE = 2048
+LEARNING_RATE = 0.001
+BATCH_SIZE = 128
 NUM_EPOCHS = 5
-VOCAB_SIZE = len(word_to_id)
-EMBEDDING_DIM = 10
-HIDDEN_DIM = 128
+VOCAB_SIZE = len(word_to_id)+1
+EMBEDDING_DIM = 256
+HIDDEN_DIM = 512
+NUM_LAYERS = 1
 # embeds = nn.Embedding(VOCAB_SIZE, EMBEDDING_DIM)
 # lstm = nn.LSTM(EMBEDDING_DIM, HIDDEN_DIM)
 
 # encoder = models.resnet50(pretrained=True)
 # encoder.fc = nn.Identity()
 encoder = EncoderCNN(EMBEDDING_DIM).to(device)
-decoder = DecoderRNN(EMBEDDING_DIM, HIDDEN_DIM, VOCAB_SIZE, 1).to(device)
+decoder = DecoderRNN(EMBEDDING_DIM, HIDDEN_DIM, VOCAB_SIZE, NUM_LAYERS).to(device)
 # Loss and optimizer
 criterion = nn.CrossEntropyLoss()
 params = list(decoder.parameters()) + list(encoder.linear.parameters()) + list(encoder.bn.parameters())
 optimizer = torch.optim.Adam(params, lr=LEARNING_RATE)
 
-img_size = (224,224)
-trans = transforms.Compose([transforms.Resize(img_size),
-                            transforms.ToTensor(),
-                            transforms.Normalize((0.5,), (0.5,))])
-trainset = dset.CocoCaptions(root = cdir+'../data/train/images',
-                             annFile = cdir+'../data/train/captions_train2014.json',
-                             transform=trans)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size = BATCH_SIZE, shuffle = True, num_workers = 4)
+crop_size = (224,224)
+trans = transforms.Compose([ 
+        # transforms.RandomCrop(crop_size),
+        transforms.Resize(crop_size),
+        transforms.RandomHorizontalFlip(), 
+        transforms.ToTensor(), 
+        transforms.Normalize((0.485, 0.456, 0.406), 
+                            (0.229, 0.224, 0.225))])
 
+# trans = transforms.Compose([transforms.Resize(img_size),
+#                             transforms.ToTensor(),
+#                             transforms.Normalize((0.5,), (0.5,))])
+    
+# trainset = dset.CocoCaptions(root = cdir+'../data/train/images',
+#                              annFile = cdir+'../data/train/captions_train2014.json',
+#                              transform=trans)
+date_print("Loading Data.")
+trainset = load_dataset(cdir+'../data/train/images', cdir+'../data/train/captions_train2014.json', trans)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size = BATCH_SIZE, shuffle = True, num_workers = 4, collate_fn = collate_fn)
+
+date_print("Start Training.")
 # Train the models
 total_step = len(trainloader)
 for epoch in range(NUM_EPOCHS):
     with tqdm(trainloader) as pbar:
         pbar.set_description("[Epoch %d]" % (epoch + 1))
-        for i, (images, captions) in enumerate(pbar):
+        for i, (images, captions,lengths) in enumerate(pbar):
             
             # Set mini-batch dataset
             images = images.to(device)
-            captions = vocab.tokenize_caption(captions).to(device)
-            # targets = pack_padded_sequence(captions, lengths, batch_first=True)[0]
+            captions = captions.to(device)
+            targets = pack_padded_sequence(captions, lengths, batch_first=True)[0]
             
             # Forward, backward and optimize
             features = encoder(images)
-            print(features)
             outputs = decoder(features, captions, lengths)
             loss = criterion(outputs, targets)
             decoder.zero_grad()
@@ -120,17 +209,18 @@ for epoch in range(NUM_EPOCHS):
             optimizer.step()
 
         # Print log info
-        print('Epoch [{}], Loss: {:.4f}, Perplexity: {:5.4f}'
-                .format(epoch, loss.item(), np.exp(loss.item()))) 
+        date_print('Epoch [{}], Loss: {:.4f}, Perplexity: {:5.4f}'.format(epoch, loss.item(), np.exp(loss.item()))) 
             
         # Save the model checkpoints
-        model_path = cdir+'model/encoder-'+'-'+str(epoch+1)+'.pth'
+        model_path = '{}model/encoder-{}-{}-{}-{}-{}.pth'.format(cdir,epoch+1,EMBEDDING_DIM,HIDDEN_DIM,VOCAB_SIZE,NUM_LAYERS)
         torch.save(encoder.to('cpu').state_dict(), model_path)
         encoder.to(device)
-        model_path = cdir+'model/decoder-'+'-'+str(epoch+1)+'.pth'
+        model_path = '{}model/decoder-{}-{}-{}-{}-{}.pth'.format(cdir,epoch+1,EMBEDDING_DIM,HIDDEN_DIM,VOCAB_SIZE,NUM_LAYERS)
         torch.save(decoder.to('cpu').state_dict(), model_path)
         decoder.to(device)
+
         # torch.save(decoder.state_dict(), os.path.join(
         #     args.model_path, cdir+' model/decoder-{}-{}.ckpt'.format(epoch+1, i+1)))
         # torch.save(encoder.state_dict(), os.path.join(
         #     args.model_path, cdir+'model/encoder-{}-{}.ckpt'.format(epoch+1, i+1)))
+date_print("Training finished")

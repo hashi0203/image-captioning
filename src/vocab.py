@@ -60,7 +60,7 @@ def preprocess_caption(opt):
 	vocab.append('<start>')
 	vocab.append('<end>')
 	vocab.append('<unk>')
-	vocab.append('<pad>')
+	# vocab.append('<pad>')
 	
 	# add start token before and end token after the sentence and add padding until length of each sentences is 15
 	id_to_word = {i+1:t for i,t in enumerate(vocab)}
@@ -71,8 +71,8 @@ def preprocess_caption(opt):
 	for i in range(len(original_token)):
 		sent = ['<start>'] + original_token[i][1] + ['<end>']
 		sent_id = [word_to_id[t] if (t in word_to_id) else word_to_id['<unk>'] for t in sent]
-		if (len(sent_id)) < 15:
-			sent_id = sent_id + [word_to_id['<pad>']] * (15-len(sent_id))
+		# if (len(sent_id)) < 15:
+		# 	sent_id = sent_id + [word_to_id['<pad>']] * (15-len(sent_id))
 		original_token_id.append([original_token[i][0], sent_id])
 	
 	# save vocabs
@@ -118,25 +118,30 @@ def tokenize_caption(sentences):
 
 	# change all characters to lowercase, remove periods and extract sentences shorter than 14 words
 	ret = []
-	for sent in sentences:
-		tokens = tokenize.word_tokenize(sent.lower())
+	for caption in sentences[0]:
+		caption = re.sub(r'\'d'," had", caption)
+		caption = re.sub(r'\'m'," am", caption)
+		caption = re.sub(r'\'s'," is", caption)
+		caption = re.sub(r'[&]+'," and ", caption)
+		caption = re.sub(r'[!.,:;#$>\'\`\?\-\(\)\[\]]+'," ", caption)
+		tokens = tokenize.word_tokenize(caption.lower())
 		if tokens[-1] == '.':
 			tokens = tokens[:-1]
-		if len(tokens) <= 13:
-			ret.append(tokens)	
+		# if len(tokens) <= 13:
+		ret.append(tokens)	
 	
 	# add start token before and end token after the sentence and add padding until length of each sentences is 15
-	with open(cdir+'id_to_word.pkl', 'rb') as f:
+	with open(cdir+'../vocab/id_to_word.pkl', 'rb') as f:
 		id_to_word = pickle.load(f)
 
-	with open(cdir+'word_to_id.pkl', 'rb') as f:
+	with open(cdir+'../vocab/word_to_id.pkl', 'rb') as f:
 		word_to_id = pickle.load(f)
 	
 	for i in range(len(ret)):
 		sent = ['<start>'] + ret[i] + ['<end>']
 		sent_id = [word_to_id[t] if (t in word_to_id) else word_to_id['<unk>'] for t in sent]
-		if (len(sent_id)) < 15:
-			sent_id = sent_id + [word_to_id['<pad>']] * (15-len(sent_id))
+		# if (len(sent_id)) < 15:
+		# 	sent_id = sent_id + [word_to_id['<pad>']] * (15-len(sent_id))
 		ret[i] = sent_id
 	
 	return ret	
