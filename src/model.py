@@ -50,7 +50,7 @@ class DecoderRNN(nn.Module):
             pbar.set_description("[Infering]")
             for j in pbar:
                 if j == 0:
-                    # prepare the first beam                                        
+                    # prepare the first beam
                     hiddens, states = self.lstm(inputs, states)                             # hiddens: (1, 1, HIDDEN_DIM)
                     outputs = self.linear(hiddens.squeeze(1))                               # outputs:  (1, VOCAB_SIZE)
                     VOCAB_SIZE = len(outputs[0])
@@ -63,12 +63,17 @@ class DecoderRNN(nn.Module):
                     states_list = []
                     prob_list = []
                     for i,(inputs, states) in enumerate(beam):
-                        hiddens, states = self.lstm(inputs, states)          # hiddens: (batch_size, 1, HIDDEN_DIM)
-                        outputs = self.linear(hiddens.squeeze(1))            # outputs:  (batch_size, VOCAB_SIZE)
-                        states_list.append(states)
-                
-                        idxs = zip([i] * VOCAB_SIZE, list(range(VOCAB_SIZE)))
-                        prob_list.extend(list(zip(idxs,list(outputs[0]))))
+                        # if the last word is end
+                        if sampled_ids[i][0][-1] == VOCAB_SIZE-2:
+                            states_list.append(states)
+                            prob_list.extend(list(zip(zip([i],[VOCAB_SIZE-1]),[sampled_ids[i][1]])))
+                        else:
+                            hiddens, states = self.lstm(inputs, states)          # hiddens: (batch_size, 1, HIDDEN_DIM)
+                            outputs = self.linear(hiddens.squeeze(1))            # outputs:  (batch_size, VOCAB_SIZE)
+                            states_list.append(states)
+                    
+                            idxs = zip([i] * VOCAB_SIZE, list(range(VOCAB_SIZE)))
+                            prob_list.extend(list(zip(idxs,list(outputs[0]))))
                     ret = heapsort(prob_list, BEAM_SIZE)              # ret: [((beam_idx, vocab_idx), prob)] * (BEAM_SIZE)
                     predicted, prob = zip(*ret)
                     beam_idx, vocab_idx = zip(*predicted)

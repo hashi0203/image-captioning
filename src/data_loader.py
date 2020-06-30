@@ -9,6 +9,7 @@ from PIL import Image
 from nltk import tokenize
 import re
 import vocab
+import random
 
 # def tokenize_caption(sentences):
 # 	cdir = os.path.dirname(os.path.abspath(__file__))+'/'
@@ -87,7 +88,9 @@ def tokenize_caption(caption):
 
 def collate_fn(data):
     images, captions = zip(*data)
-    captions = [tokenize_caption(c[0]) for c in captions]
+    # data = [(images[i].clone(), tokenize_caption(c)) for i,cap in enumerate(captions) for c in cap]
+    captions = [tokenize_caption(c[random.randrange(len(c))]) for c in captions]
+    # captions = [tokenize_caption(c[0]) for c in captions]
     data = zip(images, captions)
     data = sorted(data, key=lambda x: len(x[1]), reverse=True)
     images, captions = zip(*data)

@@ -5,6 +5,7 @@ from model import DecoderRNN
 from PIL import Image
 import os
 import pickle
+import glob
 
 def load_image(image_path, transform=None):
     image = Image.open(image_path)
@@ -33,7 +34,7 @@ BEAM_SIZE = 5
 
 encoder_path = cdir + 'model/encoder-5-256-512-11305-1.pth'
 decoder_path = cdir + 'model/decoder-5-256-512-11305-1.pth'
-image_path = cdir + 'cat.jpg'
+image_dir = cdir + '../test/images/*'
 
 # Image preprocessing
 transform = transforms.Compose([
@@ -51,25 +52,28 @@ decoder = decoder.to(device)
 encoder.load_state_dict(torch.load(encoder_path))
 decoder.load_state_dict(torch.load(decoder_path))
 
-# Prepare an image
-image = load_image(image_path, transform)
-image_tensor = image.to(device)
+for image_path in glob.glob(image_dir):
+    # Prepare an image
+    print("file name: {}".format(os.path.basename(image_path)))
 
-# Generate an caption from the image
-feature = encoder(image_tensor)
-sampled_ids = decoder.sample(feature, BEAM_SIZE)
+    image = load_image(image_path, transform)
+    image_tensor = image.to(device)
 
-# Convert word_ids to words
-for sampled_id, prob in sampled_ids:
-    sampled_id = sampled_id.cpu().numpy()          # (1, max_seq_length) -> (max_seq_length)
-    sampled_caption = []
-    for word_id in sampled_id:
-        word = id_to_word[word_id]
-        sampled_caption.append(word)
-        if word == '<end>':
-            break
-    sentence = ' '.join(sampled_caption)
-    print (sentence + ' p = ' + str(prob.item()))
+    # Generate an caption from the image
+    feature = encoder(image_tensor)
+    sampled_ids = decoder.sample(feature, BEAM_SIZE)
+
+    # Convert word_ids to words
+    for i, (sampled_id, prob) in enumerate(sampled_ids):
+        sampled_id = sampled_id.cpu().numpy()          # (1, max_seq_length) -> (max_seq_length)
+        sampled_caption = []
+        for word_id in sampled_id:
+            word = id_to_word[word_id]
+            sampled_caption.append(word)
+            if word == '<end>':
+                break
+        sentence = ' '.join(sampled_caption)
+        print (" {}.p = {:.3f} '{}'".format(i, prob.item(), sentence))
 
 # Print out the image and the generated caption
 # image = Image.open(image_path)

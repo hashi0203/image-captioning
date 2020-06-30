@@ -20,11 +20,11 @@ date_print("Running in "+dev+".")
 device = torch.device(dev)
 LEARNING_RATE = 0.001
 BATCH_SIZE = 128
-NUM_EPOCHS = 10
+NUM_EPOCHS = 20
 # VOCAB_SIZE = len(word_to_id)+1
 EMBEDDING_DIM = 256
 HIDDEN_DIM = 512
-NUM_LAYERS = 10
+NUM_LAYERS = 1
 
 date_print("Loading Data.")
 VOCAB_SIZE, trainloader = COCO_load(BATCH_SIZE)
@@ -66,10 +66,10 @@ for epoch in range(NUM_EPOCHS):
         date_print('Epoch {}, Loss: {:.4f}, Perplexity: {:5.4f}'.format(epoch+1, loss.item(), np.exp(loss.item()))) 
             
         # Save the model checkpoints
-        model_path = '{}model/encoder-{}-{}-{}-{}-{}.pth'.format(cdir,epoch+1,EMBEDDING_DIM,HIDDEN_DIM,VOCAB_SIZE,NUM_LAYERS)
+        model_path = '{}model/encoder-{}-{}-{}-{}-{}-{:.0f}.pth'.format(cdir,epoch+1,EMBEDDING_DIM,HIDDEN_DIM,VOCAB_SIZE,NUM_LAYERS,loss.item()*100)
         torch.save(encoder.to('cpu').state_dict(), model_path)
         encoder.to(device)
-        model_path = '{}model/decoder-{}-{}-{}-{}-{}.pth'.format(cdir,epoch+1,EMBEDDING_DIM,HIDDEN_DIM,VOCAB_SIZE,NUM_LAYERS)
+        model_path = '{}model/decoder-{}-{}-{}-{}-{}-{:.0f}.pth'.format(cdir,epoch+1,EMBEDDING_DIM,HIDDEN_DIM,VOCAB_SIZE,NUM_LAYERS,loss.item()*100)
         torch.save(decoder.to('cpu').state_dict(), model_path)
         decoder.to(device)
 
