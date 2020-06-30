@@ -29,10 +29,11 @@ VOCAB_SIZE = len(id_to_word)+1
 EMBEDDING_DIM = 256
 HIDDEN_DIM = 512
 NUM_LAYERS = 1
+BEAM_SIZE = 5
 
-encoder_path = cdir + 'model/encoder--5.pth'
-decoder_path = cdir + 'model/decoder--5.pth'
-image_path = cdir + 'girl.jpg'
+encoder_path = cdir + 'model/encoder-5-256-512-11305-1.pth'
+decoder_path = cdir + 'model/decoder-5-256-512-11305-1.pth'
+image_path = cdir + 'cat.jpg'
 
 # Image preprocessing
 transform = transforms.Compose([
@@ -56,20 +57,21 @@ image_tensor = image.to(device)
 
 # Generate an caption from the image
 feature = encoder(image_tensor)
-sampled_ids = decoder.sample(feature)
-sampled_ids = sampled_ids[0].cpu().numpy()          # (1, max_seq_length) -> (max_seq_length)
+sampled_ids = decoder.sample(feature, BEAM_SIZE)
 
 # Convert word_ids to words
-sampled_caption = []
-for word_id in sampled_ids:
-    word = id_to_word[word_id]
-    sampled_caption.append(word)
-    if word == '<end>':
-        break
-sentence = ' '.join(sampled_caption)
+for sampled_id, prob in sampled_ids:
+    sampled_id = sampled_id.cpu().numpy()          # (1, max_seq_length) -> (max_seq_length)
+    sampled_caption = []
+    for word_id in sampled_id:
+        word = id_to_word[word_id]
+        sampled_caption.append(word)
+        if word == '<end>':
+            break
+    sentence = ' '.join(sampled_caption)
+    print (sentence + ' p = ' + str(prob.item()))
 
 # Print out the image and the generated caption
 # image = Image.open(image_path)
 # plt.imshow(np.asarray(image))
 # plt.show()
-print (sentence)

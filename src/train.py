@@ -20,11 +20,11 @@ date_print("Running in "+dev+".")
 device = torch.device(dev)
 LEARNING_RATE = 0.001
 BATCH_SIZE = 128
-NUM_EPOCHS = 5
+NUM_EPOCHS = 10
 # VOCAB_SIZE = len(word_to_id)+1
 EMBEDDING_DIM = 256
 HIDDEN_DIM = 512
-NUM_LAYERS = 1
+NUM_LAYERS = 10
 
 date_print("Loading Data.")
 VOCAB_SIZE, trainloader = COCO_load(BATCH_SIZE)
