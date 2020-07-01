@@ -1,0 +1,6 @@
+*.out
+*.sh
+/data/*
+/coco_caption/
+*/model/
+/model/
