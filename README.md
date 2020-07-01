@@ -28,15 +28,15 @@ This program is based on "Show and Tell: A Neural Image Caption Generator" by Vi
 	```
 2. There are some options to construct the environment.
 	 - pipenv
- ```bash
-cd image-captioning
-pipenv install
-```
+	```bash
+	cd image-captioning
+	pipenv install
+	```
    - pip
-```bash
-cd image-captioning
-pip install -r requirements.txt
-```
+	```bash
+	cd image-captioning
+	pip install -r requirements.txt
+	```
 
 # Usage
 
