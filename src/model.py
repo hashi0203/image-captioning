@@ -7,16 +7,17 @@ from tqdm import tqdm
 
 class EncoderCNN(nn.Module):
     def __init__(self, EMBEDDING_DIM):
-        """Load the pretrained ResNet-152 and replace top fc layer."""
+        # Load the pretrained ResNet-152 and replace top fc layer.
         super(EncoderCNN, self).__init__()
         resnet = models.resnet152(pretrained=True)
-        modules = list(resnet.children())[:-1]      # delete the last fc layer.
+        # Delete the last fc layer
+        modules = list(resnet.children())[:-1]
         self.resnet = nn.Sequential(*modules)
         self.linear = nn.Linear(resnet.fc.in_features, EMBEDDING_DIM)
         self.bn = nn.BatchNorm1d(EMBEDDING_DIM, momentum=0.01)
         
     def forward(self, images):
-        """Extract feature vectors from input images."""
+        # Extract feature vectors from input images.
         with torch.no_grad():
             features = self.resnet(images)
         features = features.reshape(features.size(0), -1)
@@ -26,7 +27,7 @@ class EncoderCNN(nn.Module):
 
 class DecoderRNN(nn.Module):
     def __init__(self, EMBEDDING_DIM, HIDDEN_DIM, VOCAB_SIZE, num_layers, max_seq_length=30):
-        """Set the hyper-parameters and build the layers."""
+        # Set the hyper-parameters and build the layers.
         super(DecoderRNN, self).__init__()
         self.embed = nn.Embedding(VOCAB_SIZE, EMBEDDING_DIM)
         self.lstm = nn.LSTM(EMBEDDING_DIM, HIDDEN_DIM, num_layers, batch_first=True)
@@ -35,7 +36,7 @@ class DecoderRNN(nn.Module):
         self.VOCAB_SIZE = VOCAB_SIZE
         
     def forward(self, features, captions, lengths):
-        """Decode image feature vectors and generates captions."""
+        # Decode image feature vectors and generates captions.
         embeddings = self.embed(captions)
         embeddings = torch.cat((features.unsqueeze(1), embeddings), 1)
         packed = pack_padded_sequence(embeddings, lengths, batch_first=True) 
@@ -44,7 +45,7 @@ class DecoderRNN(nn.Module):
         return outputs
     
     def beam_search(self, features, BEAM_SIZE, device, states=None):
-        """Generate captions for given image features using greedy search."""
+        # Generate captions for given image features using beam search.
         inputs = features.unsqueeze(1)
         VOCAB_SIZE = self.VOCAB_SIZE
 
@@ -52,37 +53,31 @@ class DecoderRNN(nn.Module):
             pbar.set_description("[Infering]")
             for j in pbar:
                 if j == 0:
-                    # prepare the first beam
-                    # we expect the first token is <start>, so we choose only the one with the highest probability (it should be <start>)
+                    # Prepare the first beam
+                    # We expect the first token is <start>, so we choose only the one with the highest probability (it should be <start>)
                     hiddens, states = self.lstm(inputs, states)                             # hiddens: (1, 1, HIDDEN_DIM)
-                    outputs = self.linear(hiddens.squeeze(1))                               # outputs:  (1, VOCAB_SIZE)
+                    outputs = self.linear(hiddens.squeeze(1))                               # outputs: (1, VOCAB_SIZE)
 
-                    prob, predicted = outputs.max(1)                        # predicted: (batch_size)
+                    prob, predicted = outputs.max(1)                                        # predicted: (1)
                     sampled_ids = [(predicted, prob)]
-                    beam = [(self.embed(s).unsqueeze(1), states) for s,_ in sampled_ids]        # beam: [(inputs, states)] * BEAM_SIZE
+                    beam = [(self.embed(s).unsqueeze(1), states) for s,_ in sampled_ids]    # beam: [(inputs, states)]
 
-                    # VOCAB_SIZE = len(outputs[0])
-                    # vocab_idx = list(range(VOCAB_SIZE))
-                    # ret = heapsort(list(zip(vocab_idx,list(outputs[0]))),BEAM_SIZE)   # ret: (BEAM_SIZE)
-                    # vocab_idx, prob = zip(*ret)
-                    # sampled_ids = [(torch.Tensor([v]).long().to(device), prob) for v in vocab_idx]
-                    # beam = [(self.embed(s).unsqueeze(1), states) for s,_ in sampled_ids]        # beam: [(inputs, states)] * BEAM_SIZE
                 else:
                     states_list = []
                     prob_list = []
                     for i,(inputs, states) in enumerate(beam):
-                        # if the last word is end, skip infering
+                        # If the last word is end, skip infering
                         if sampled_ids[i][0][-1] == VOCAB_SIZE-2:
                             states_list.append(states)
                             prob_list.extend(list(zip(zip([i],[VOCAB_SIZE-2]),[sampled_ids[i][1]])))
                         else:
-                            hiddens, states = self.lstm(inputs, states)          # hiddens: (batch_size, 1, HIDDEN_DIM)
-                            outputs = self.linear(hiddens.squeeze(1))            # outputs:  (batch_size, VOCAB_SIZE)
+                            hiddens, states = self.lstm(inputs, states)                     # hiddens: (1, 1, HIDDEN_DIM)
+                            outputs = self.linear(hiddens.squeeze(1))                       # outputs: (1, VOCAB_SIZE)
                             states_list.append(states)
                     
-                            idxs = zip([i] * VOCAB_SIZE, list(range(VOCAB_SIZE)))
-                            prob_list.extend(list(zip(idxs,list(outputs[0]))))
-                    ret = heapsort(prob_list, BEAM_SIZE)              # ret: [((beam_idx, vocab_idx), prob)] * (BEAM_SIZE)
+                            idxs = zip([i] * VOCAB_SIZE, list(range(VOCAB_SIZE)))           # idx: [(beam_idx, vocab_idx)] * (VOCAB_SIZE)
+                            prob_list.extend(list(zip(idxs,list(outputs[0]))))              # prob_list: [((beam_idx, vocab_idx), prob)] * (all inferred results of this layer)
+                    ret = heapsort(prob_list, BEAM_SIZE)                                    # ret: [((beam_idx, vocab_idx), prob)] * (BEAM_SIZE)
                     predicted, prob = zip(*ret)
                     beam_idx, vocab_idx = zip(*predicted)
 
@@ -91,11 +86,10 @@ class DecoderRNN(nn.Module):
                     for i in range(BEAM_SIZE):
                         word_id = torch.Tensor([vocab_idx[i]]).to(device).long()
                         tmp_sampled_ids.append((torch.cat((sampled_ids[beam_idx[i]][0], word_id),0), prob[i]))
-                        inputs = self.embed(word_id)                       # inputs: (batch_size, EMBEDDING_DIM)
-                        inputs = inputs.unsqueeze(1)                         # inputs: (batch_size, 1, EMBEDDING_DIM)
-                        beam.append((inputs, states_list[beam_idx[i]]))
-                    sampled_ids = tmp_sampled_ids
-        # sampled_ids = torch.stack(sampled_ids[0], 1)                # sampled_ids: (batch_size, max_seq_length)
+                        inputs = self.embed(word_id)                                        # inputs: (1, EMBEDDING_DIM)
+                        inputs = inputs.unsqueeze(1)                                        # inputs: (1, 1, EMBEDDING_DIM)
+                        beam.append((inputs, states_list[beam_idx[i]]))                     # beam: [(inputs, states)] * (BEAM_SIZE)
+                    sampled_ids = tmp_sampled_ids                                           # sampled_ids: [(predicted ids, prob)] * (BEAM_SIZE)
         return sampled_ids
 
     # def sample(self, features, BEAM_SIZE, states=None):

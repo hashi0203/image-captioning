@@ -17,10 +17,12 @@ def date_print(str):
     print('[{:%Y-%m-%d %H:%M:%S}]: {}'.format(datetime.datetime.now(), str))
 
 def train():
+    # Choose Device
     dev = 'cuda' if torch.cuda.is_available() else 'cpu'
     date_print("Running in "+dev+".")
     device = torch.device(dev)
 
+    # Import (hyper)parameters
     config = Config()
     config.train()
 
@@ -38,13 +40,8 @@ def train():
     MODEL_PATH = config.MODEL_PATH
 
     date_print("Loading Data.")
-    # trainloader = COCO_loader(BATCH_SIZE,WORD_TO_ID,CAPTION_PATH,TRAIN_IMAGE_PATH)
     trainloader = COCO_loader(BATCH_SIZE,WORD_TO_ID,CAPTION_PATH,TRAIN_IMAGE_PATH)
-    # embeds = nn.Embedding(VOCAB_SIZE, EMBEDDING_DIM)
-    # lstm = nn.LSTM(EMBEDDING_DIM, HIDDEN_DIM)
-
-    # encoder = models.resnet50(pretrained=True)
-    # encoder.fc = nn.Identity()
+    # Build models
     encoder = EncoderCNN(EMBEDDING_DIM).to(device)
     decoder = DecoderRNN(EMBEDDING_DIM, HIDDEN_DIM, VOCAB_SIZE, NUM_LAYERS).to(device)
     # Loss and optimizer
@@ -52,14 +49,12 @@ def train():
     params = list(decoder.parameters()) + list(encoder.linear.parameters()) + list(encoder.bn.parameters())
     optimizer = torch.optim.Adam(params, lr=LEARNING_RATE)
 
-    date_print("Start Training.")
     # Train the models
-    total_step = len(trainloader)
+    date_print("Start Training.")
     for epoch in range(NUM_EPOCHS):
         with tqdm(trainloader) as pbar:
             pbar.set_description("[Epoch %d]" % (epoch + 1))
             for i, (images, captions,lengths) in enumerate(pbar):
-                
                 # Set mini-batch dataset
                 images = images.to(device)
                 captions = captions.to(device)

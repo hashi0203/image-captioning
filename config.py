@@ -2,10 +2,10 @@ import os
 import pickle
 
 class Config(object):
-    # settings of (hyper)parameters
-    # set the relative path from the directory of this file
+    # Settings of (hyper)parameters
+    # Set the relative path from the directory of this file
     def __init__(self):
-        self.PREPARE_VOCAB = True
+        self.PREPARE_VOCAB = False
 
         self.EMBEDDING_DIM = 256
         self.HIDDEN_DIM = 512
@@ -15,7 +15,7 @@ class Config(object):
         self.WORD_TO_ID_PATH = 'vocab/word_to_id.pkl'
         self.ID_TO_WORD_PATH = 'vocab/id_to_word.pkl'
 
-        # change relative path to absolute path
+        # Change relative path to absolute path
         self.CAPTION_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.CAPTION_PATH)
         self.WORD_TO_ID_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.WORD_TO_ID_PATH)
         self.ID_TO_WORD_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.ID_TO_WORD_PATH)
@@ -28,7 +28,7 @@ class Config(object):
         self.TRAIN_IMAGE_PATH = 'data/train/images'
         self.MODEL_PATH = 'model'
 
-        # change relative path to absolute path
+        # Change relative path to absolute path
         self.TRAIN_IMAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.TRAIN_IMAGE_PATH)
         self.MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.MODEL_PATH)
 
@@ -47,7 +47,7 @@ class Config(object):
         self.INFER_IMAGE_PATH = 'test/images/*'
         self.INFER_RESULT_PATH = 'test/result.txt'
 
-        # change relative path to absolute path
+        # Change relative path to absolute path
         self.ENCODER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.ENCODER_PATH)
         self.DECODER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.DECODER_PATH)
         self.INFER_IMAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.INFER_IMAGE_PATH)

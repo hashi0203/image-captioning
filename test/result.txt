@@ -684,3 +684,83 @@ file name: cat.jpg
   4.p = 10.127 '<start> there is a cat that is laying in the grass <end>'
 
 file name: 1.jpg
+
+---------------------
+date: 2020-07-01 17:21:36
+encoder model: /home/u00286/image-captioning/model/encoder-20-256-512-11305-1-208.pth
+decoder model: /home/u00286/image-captioning/model/decoder-20-256-512-11305-1-208.pth
+
+file name: cat.jpg
+  0.p = 10.936 '<start> there is a cat that is laying down in the grass <end>'
+  1.p = 10.489 '<start> an orange and white kitten standing in a field <end>'
+  2.p = 10.456 '<start> an orange and white kitten standing in a field of green grass <end>'
+  3.p = 10.262 '<start> an orange and white kitten standing in a field of grass <end>'
+  4.p = 10.127 '<start> there is a cat that is laying in the grass <end>'
+
+file name: 1.jpg
+  0.p = 12.500 '<start> two red double decker buses are driving down the street <end>'
+  1.p = 11.965 '<start> two double decker buses are driving down the street <end>'
+  2.p = 11.245 '<start> two double decker buses are driving down a street <end>'
+  3.p = 9.977 '<start> two red double decker buses are driving down the road <end>'
+  4.p = 9.957 '<start> two red double decker buses parked in front of a building <end>'
+
+file name: 2.jpg
+  0.p = 10.064 '<start> a group of people sitting at a table with food and drinks <end>'
+  1.p = 8.046 '<start> a group of people sitting at a table with food <end>'
+  2.p = 7.809 '<start> a group of people sitting at a long table <end>'
+  3.p = 7.571 '<start> a group of people sitting at a long table with food <end>'
+  4.p = 7.530 '<start> a group of people sitting at a restaurant table <end>'
+
+file name: girl.jpg
+  0.p = 10.404 '<start> three young boys are posing for a photo with a pair of tennis rackets <end>'
+  1.p = 10.340 '<start> three young boys are posing for a photo with a tennis racket <end>'
+  2.p = 10.290 '<start> three young boys are posing for a photo with a tennis racquet <end>'
+  3.p = 9.762 '<start> three young boys are posing for a photo with a bat <end>'
+  4.p = 9.571 '<start> three young boys are posing for a photo with a pair of scissors <end>'
+
+file name: 3.jpg
+  0.p = 11.993 '<start> a young man riding a wave on top of a surfboard <end>'
+  1.p = 11.634 '<start> a young man riding a wave on a surf board <end>'
+  2.p = 10.848 '<start> a young man riding a wave on a surfboard <end>'
+  3.p = 9.344 '<start> a young man riding a surfboard on top of a wave <end>'
+  4.p = 9.153 '<start> a young man riding a surfboard on a wave <end>'
+
+---------------------
+date: 2020-07-01 17:50:51
+encoder model: /home/u00286/image-captioning/model/encoder-20-256-512-11305-1-208.pth
+decoder model: /home/u00286/image-captioning/model/decoder-20-256-512-11305-1-208.pth
+
+file name: cat.jpg
+  0.p = 10.936 '<start> there is a cat that is laying down in the grass <end>'
+  1.p = 10.489 '<start> an orange and white kitten standing in a field <end>'
+  2.p = 10.456 '<start> an orange and white kitten standing in a field of green grass <end>'
+  3.p = 10.262 '<start> an orange and white kitten standing in a field of grass <end>'
+  4.p = 10.127 '<start> there is a cat that is laying in the grass <end>'
+
+file name: 1.jpg
+  0.p = 12.500 '<start> two red double decker buses are driving down the street <end>'
+  1.p = 11.965 '<start> two double decker buses are driving down the street <end>'
+  2.p = 11.245 '<start> two double decker buses are driving down a street <end>'
+  3.p = 9.977 '<start> two red double decker buses are driving down the road <end>'
+  4.p = 9.957 '<start> two red double decker buses parked in front of a building <end>'
+
+file name: 2.jpg
+  0.p = 10.064 '<start> a group of people sitting at a table with food and drinks <end>'
+  1.p = 8.046 '<start> a group of people sitting at a table with food <end>'
+  2.p = 7.809 '<start> a group of people sitting at a long table <end>'
+  3.p = 7.571 '<start> a group of people sitting at a long table with food <end>'
+  4.p = 7.530 '<start> a group of people sitting at a restaurant table <end>'
+
+file name: girl.jpg
+  0.p = 10.404 '<start> three young boys are posing for a photo with a pair of tennis rackets <end>'
+  1.p = 10.340 '<start> three young boys are posing for a photo with a tennis racket <end>'
+  2.p = 10.290 '<start> three young boys are posing for a photo with a tennis racquet <end>'
+  3.p = 9.762 '<start> three young boys are posing for a photo with a bat <end>'
+  4.p = 9.571 '<start> three young boys are posing for a photo with a pair of scissors <end>'
+
+file name: 3.jpg
+  0.p = 11.993 '<start> a young man riding a wave on top of a surfboard <end>'
+  1.p = 11.634 '<start> a young man riding a wave on a surf board <end>'
+  2.p = 10.848 '<start> a young man riding a wave on a surfboard <end>'
+  3.p = 9.344 '<start> a young man riding a surfboard on top of a wave <end>'
+  4.p = 9.153 '<start> a young man riding a surfboard on a wave <end>'

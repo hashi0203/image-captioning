@@ -23,10 +23,12 @@ def load_image(image_file, transform=None):
     return image
 
 def infer():
+    # Choose Device
     dev = 'cuda' if torch.cuda.is_available() else 'cpu'
     print("Running in "+dev+".")
     device = torch.device(dev)
 
+    # Import (hyper)parameters
     config = Config()
     config.infer()
 
@@ -43,8 +45,7 @@ def infer():
     INFER_IMAGE_PATH = config.INFER_IMAGE_PATH
     INFER_RESULT_PATH = config.INFER_RESULT_PATH
 
-    # with open(os.path.join(VOCAB_PATH), 'rb') as f:
-    #     id_to_word = pickle.load(f)
+    # Write log info
     with open(INFER_RESULT_PATH, 'a') as f:
         print("", file=f)
         print('---------------------', file=f)
@@ -52,26 +53,13 @@ def infer():
         print('encoder model: {}'.format(ENCODER_PATH), file=f)
         print('decoder model: {}'.format(DECODER_PATH), file=f)
 
-    # VOCAB_SIZE = len(id_to_word)+1
-    # parse = re.split('[-.]', ENCODER_PATH)
-    # EMBEDDING_DIM = int(parse[2])
-    # HIDDEN_DIM = int(parse[3])
-    # VOCAB_SIZE = int(parse[4])
-    # NUM_LAYERS = int(parse[5])
-
-    # model_path = os.path.join(cdir, 'model')
-    # encoder_path = os.path.join(model_path, ENCODER_PATH)
-    # decoder_path = os.path.join(model_path, DECODER_PATH)
-    # image_dir = os.path.join(cdir, '../test/images/*')
-
-    # Image preprocessing
     transform = transforms.Compose([
         transforms.ToTensor(), 
         transforms.Normalize((0.485, 0.456, 0.406), 
                             (0.229, 0.224, 0.225))])
 
     # Build models
-    encoder = EncoderCNN(EMBEDDING_DIM).eval()  # eval mode (batchnorm uses moving mean/variance)
+    encoder = EncoderCNN(EMBEDDING_DIM).eval()
     decoder = DecoderRNN(EMBEDDING_DIM, HIDDEN_DIM, VOCAB_SIZE, NUM_LAYERS)
     encoder = encoder.to(device)
     decoder = decoder.to(device)
@@ -81,13 +69,13 @@ def infer():
     decoder.load_state_dict(torch.load(DECODER_PATH))
 
     for image_file in glob.glob(INFER_IMAGE_PATH):
-        # Prepare an image
         with open(INFER_RESULT_PATH, 'a') as f:
             print("", file=f)
             print("file name: {}".format(os.path.basename(image_file)), file=f)
 
         print("file name: {}".format(os.path.basename(image_file)))
 
+        # Prepare an image
         image = load_image(image_file, transform)
         image_tensor = image.to(device)
 
@@ -97,7 +85,7 @@ def infer():
 
         # Convert word_ids to words
         for i, (sampled_id, prob) in enumerate(sampled_ids):
-            sampled_id = sampled_id.cpu().numpy()          # (1, max_seq_length) -> (max_seq_length)
+            sampled_id = sampled_id.cpu().numpy()
             sampled_caption = []
             for word_id in sampled_id:
                 word = ID_TO_WORD[word_id]
@@ -109,15 +97,3 @@ def infer():
 
             with open(INFER_RESULT_PATH, 'a') as f:
                 print("  {}.p = {:.3f} '{}'".format(i, prob.item(), sentence), file=f)
-
-# if __name__ == "__main__":
-#     if len(sys.argv) == 1:
-#         ENCODER_PATH = 'encoder-1-256-512-11305-1-284.pth'
-#         DECODER_PATH = 'decoder-1-256-512-11305-1-284.pth'
-#     elif len(sys.argv) == 2:
-#         ENCODER_PATH = sys.argv[1].replace('/', '')
-#         DECODER_PATH = ENCODER_PATH.replace('encoder', 'decoder')
-#     else:
-#         ENCODER_PATH = sys.argv[1].replace('/', '')
-#         DECODER_PATH = sys.argv[2].replace('/', '')
-#     infer(ENCODER_PATH, DECODER_PATH)
