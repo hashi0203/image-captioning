@@ -25,6 +25,3 @@ def heapsort(data, k):
         data[0] = data[i]
         pushdown(data, 0, i-1)
     return ret
-
-# data = [(1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (3, 0), (2, 0), (1, 0), (4, 0), (3, 0), (4, 0), (0, 0)]
-# print(heapsort(data, 10))

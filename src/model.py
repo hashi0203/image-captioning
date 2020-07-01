@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torchvision import models
 from torch.nn.utils.rnn import pack_padded_sequence
-from heapsort import heapsort
+from .heapsort import heapsort
 from tqdm import tqdm
 
 class EncoderCNN(nn.Module):
@@ -32,6 +32,7 @@ class DecoderRNN(nn.Module):
         self.lstm = nn.LSTM(EMBEDDING_DIM, HIDDEN_DIM, num_layers, batch_first=True)
         self.linear = nn.Linear(HIDDEN_DIM, VOCAB_SIZE)
         self.max_seg_length = max_seq_length
+        self.VOCAB_SIZE = VOCAB_SIZE
         
     def forward(self, features, captions, lengths):
         """Decode image feature vectors and generates captions."""
@@ -42,31 +43,38 @@ class DecoderRNN(nn.Module):
         outputs = self.linear(hiddens[0])
         return outputs
     
-    def sample(self, features, BEAM_SIZE, states=None):
+    def beam_search(self, features, BEAM_SIZE, device, states=None):
         """Generate captions for given image features using greedy search."""
         inputs = features.unsqueeze(1)
+        VOCAB_SIZE = self.VOCAB_SIZE
 
         with tqdm(range(self.max_seg_length)) as pbar:
             pbar.set_description("[Infering]")
             for j in pbar:
                 if j == 0:
                     # prepare the first beam
+                    # we expect the first token is <start>, so we choose only the one with the highest probability (it should be <start>)
                     hiddens, states = self.lstm(inputs, states)                             # hiddens: (1, 1, HIDDEN_DIM)
                     outputs = self.linear(hiddens.squeeze(1))                               # outputs:  (1, VOCAB_SIZE)
-                    VOCAB_SIZE = len(outputs[0])
-                    vocab_idx = list(range(VOCAB_SIZE))
-                    ret = heapsort(list(zip(vocab_idx,list(outputs[0]))),BEAM_SIZE)   # ret: (BEAM_SIZE)
-                    vocab_idx, prob = zip(*ret)
-                    sampled_ids = [(torch.Tensor([v]).long(), prob) for v in vocab_idx]
+
+                    prob, predicted = outputs.max(1)                        # predicted: (batch_size)
+                    sampled_ids = [(predicted, prob)]
                     beam = [(self.embed(s).unsqueeze(1), states) for s,_ in sampled_ids]        # beam: [(inputs, states)] * BEAM_SIZE
+
+                    # VOCAB_SIZE = len(outputs[0])
+                    # vocab_idx = list(range(VOCAB_SIZE))
+                    # ret = heapsort(list(zip(vocab_idx,list(outputs[0]))),BEAM_SIZE)   # ret: (BEAM_SIZE)
+                    # vocab_idx, prob = zip(*ret)
+                    # sampled_ids = [(torch.Tensor([v]).long().to(device), prob) for v in vocab_idx]
+                    # beam = [(self.embed(s).unsqueeze(1), states) for s,_ in sampled_ids]        # beam: [(inputs, states)] * BEAM_SIZE
                 else:
                     states_list = []
                     prob_list = []
                     for i,(inputs, states) in enumerate(beam):
-                        # if the last word is end
+                        # if the last word is end, skip infering
                         if sampled_ids[i][0][-1] == VOCAB_SIZE-2:
                             states_list.append(states)
-                            prob_list.extend(list(zip(zip([i],[VOCAB_SIZE-1]),[sampled_ids[i][1]])))
+                            prob_list.extend(list(zip(zip([i],[VOCAB_SIZE-2]),[sampled_ids[i][1]])))
                         else:
                             hiddens, states = self.lstm(inputs, states)          # hiddens: (batch_size, 1, HIDDEN_DIM)
                             outputs = self.linear(hiddens.squeeze(1))            # outputs:  (batch_size, VOCAB_SIZE)
@@ -81,7 +89,7 @@ class DecoderRNN(nn.Module):
                     beam = []
                     tmp_sampled_ids = []
                     for i in range(BEAM_SIZE):
-                        word_id = torch.Tensor([vocab_idx[i]]).long()
+                        word_id = torch.Tensor([vocab_idx[i]]).to(device).long()
                         tmp_sampled_ids.append((torch.cat((sampled_ids[beam_idx[i]][0], word_id),0), prob[i]))
                         inputs = self.embed(word_id)                       # inputs: (batch_size, EMBEDDING_DIM)
                         inputs = inputs.unsqueeze(1)                         # inputs: (batch_size, 1, EMBEDDING_DIM)
