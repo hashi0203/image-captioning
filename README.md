@@ -32,7 +32,7 @@ This program is based on "Show and Tell: A Neural Image Caption Generator" by Vi
 		cd image-captioning
 		pipenv install
 		```
-	   - pip
+	 - pip
 		```bash
 		cd image-captioning
 		pip install -r requirements.txt
