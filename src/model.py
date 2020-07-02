@@ -44,7 +44,7 @@ class DecoderRNN(nn.Module):
         outputs = self.linear(hiddens[0])
         return outputs
     
-    def beam_search(self, features, BEAM_SIZE, device, states=None):
+    def beam_search(self, features, BEAM_SIZE, END_ID, device, states=None):
         # Generate captions for given image features using beam search.
         inputs = features.unsqueeze(1)
         VOCAB_SIZE = self.VOCAB_SIZE
@@ -67,9 +67,9 @@ class DecoderRNN(nn.Module):
                     prob_list = []
                     for i,(inputs, states) in enumerate(beam):
                         # If the last word is end, skip infering
-                        if sampled_ids[i][0][-1] == VOCAB_SIZE-2:
+                        if sampled_ids[i][0][-1] == END_ID:
                             states_list.append(states)
-                            prob_list.extend(list(zip(zip([i],[VOCAB_SIZE-2]),[sampled_ids[i][1]])))
+                            prob_list.extend(list(zip(zip([i],[END_ID]),[sampled_ids[i][1]])))
                         else:
                             hiddens, states = self.lstm(inputs, states)                     # hiddens: (1, 1, HIDDEN_DIM)
                             outputs = self.linear(hiddens.squeeze(1))                       # outputs: (1, VOCAB_SIZE)

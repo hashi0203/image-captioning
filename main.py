@@ -2,9 +2,9 @@
 import argparse
 from config import Config
 from vocab import vocab
-from src import train
+from src.train import train
 # from src import validate
-from src import infer
+from src.infer import infer
 
 # def save_img(img_name, img):
 # 	img_np = img.to('cpu').detach().numpy().copy()
@@ -27,10 +27,10 @@ if __name__ == "__main__":
 		vocab.prepare_vocab(config.CAPTION_PATH, config.WORD_TO_ID_PATH, config.ID_TO_WORD_PATH)
 
 	if phase == 'train':
-		train.train()
+		train()
 	elif phase == 'validate':
 		print('not yet')
 	elif phase == 'infer':
-		infer.infer()
+		infer()
 	else:
 		print('the argument should be train, validate, or infer')

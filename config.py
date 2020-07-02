@@ -57,4 +57,6 @@ class Config(object):
             self.ID_TO_WORD = pickle.load(f)
         self.VOCAB_SIZE = len(self.ID_TO_WORD)+1
 
+        self.END_ID = [k for k, v in self.ID_TO_WORD.items() if v == '<end>'][0]
+
 
