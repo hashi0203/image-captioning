@@ -17,6 +17,8 @@ def pushdown(data, s, t):
 def heapsort(data, k):
     ret = []
     n = len(data)
+    if n == 1:
+        return data
     mid = int((n-2)/2)
     for i in range(mid, -1, -1):
         pushdown(data, i, n-1)
