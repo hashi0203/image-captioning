@@ -39,6 +39,7 @@ def infer():
     BEAM_SIZE = config.BEAM_SIZE
 
     ID_TO_WORD = config.ID_TO_WORD
+    END_ID = config.END_ID
 
     ENCODER_PATH = config.ENCODER_PATH
     DECODER_PATH = config.DECODER_PATH
@@ -81,7 +82,7 @@ def infer():
 
         # Generate an caption from the image
         feature = encoder(image_tensor)
-        sampled_ids = decoder.beam_search(feature, BEAM_SIZE, device)
+        sampled_ids = decoder.beam_search(feature, BEAM_SIZE, END_ID, device)
 
         # Convert word_ids to words
         for i, (sampled_id, prob) in enumerate(sampled_ids):
@@ -93,7 +94,7 @@ def infer():
                 if word == '<end>':
                     break
             sentence = ' '.join(sampled_caption)
-            print ("  {}.p = {:.3f} '{}'".format(i, prob.item(), sentence))
+            print ("  {}.p = {:.3f} '{}'".format(i+1, prob.item(), sentence))
 
             with open(INFER_RESULT_PATH, 'a') as f:
-                print("  {}.p = {:.3f} '{}'".format(i, prob.item(), sentence), file=f)
+                print("  {}.p = {:.3f} '{}'".format(i+1, prob.item(), sentence), file=f)

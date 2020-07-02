@@ -4,21 +4,16 @@ import torchvision.datasets as dset
 from pycocotools.coco import COCO
 import pickle
 from PIL import Image
-from nltk import tokenize
-import re
 import random
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../'))
+from vocab.vocab import process_sentence
 
 def COCO_loader(BATCH_SIZE,WORD_TO_ID,CAPTION_PATH,TRAIN_IMAGE_PATH):
 
     def tokenize_caption(caption):
-        # Transform abbreviation
-        caption = re.sub(r'\'d'," had", caption)
-        caption = re.sub(r'\'m'," am", caption)
-        caption = re.sub(r'\'s'," is", caption)
-        caption = re.sub(r'[&]+'," and ", caption)
-        # Remove special characters
-        caption = re.sub(r'[!.,:;#$>\'\`\?\-\(\)\[\]]+'," ", caption)
-        tokens = tokenize.word_tokenize(caption.lower())
+        tokens = process_sentence(caption)
 
         sent = ['<start>'] + tokens + ['<end>']
         sent_id = [WORD_TO_ID[t] if (t in WORD_TO_ID) else WORD_TO_ID['<unk>'] for t in sent]
