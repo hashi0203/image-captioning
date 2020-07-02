@@ -12,8 +12,8 @@ class Config(object):
         self.NUM_LAYERS = 1
 
         self.CAPTION_PATH = 'data/train/captions_train2014.json'
-        self.WORD_TO_ID_PATH = 'vocab/word_to_id.pkl.org'
-        self.ID_TO_WORD_PATH = 'vocab/id_to_word.pkl.org'
+        self.WORD_TO_ID_PATH = 'vocab/word_to_id.pkl'
+        self.ID_TO_WORD_PATH = 'vocab/id_to_word.pkl'
 
         # Change relative path to absolute path
         self.CAPTION_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.CAPTION_PATH)
@@ -40,7 +40,7 @@ class Config(object):
             os.makedirs(self.MODEL_PATH)
         
     def infer(self):
-        self.BEAM_SIZE = 20
+        self.BEAM_SIZE = 5
         self.ENCODER_PATH = 'model/encoder-20-256-512-11305-1-208.pth'
         self.DECODER_PATH = 'model/decoder-20-256-512-11305-1-208.pth'
 
@@ -55,7 +55,7 @@ class Config(object):
 
         with open(self.ID_TO_WORD_PATH, 'rb') as f:
             self.ID_TO_WORD = pickle.load(f)
-        self.VOCAB_SIZE = len(self.ID_TO_WORD)+1
+        self.VOCAB_SIZE = len(self.ID_TO_WORD)
 
         self.END_ID = [k for k, v in self.ID_TO_WORD.items() if v == '<end>'][0]
 
