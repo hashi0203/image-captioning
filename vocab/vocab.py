@@ -45,11 +45,11 @@ def prepare_vocab(CAPTION_PATH, WORD_TO_ID_PATH, ID_TO_WORD_PATH):
 	vocab.append('<unk>')
 	
 	# Save vocabs
-	word_to_id = {t:i+1 for i,t in enumerate(vocab)}
+	word_to_id = {t:i for i,t in enumerate(vocab)}
 	with open(WORD_TO_ID_PATH, 'wb') as f:
 		pickle.dump(word_to_id, f)
 	
-	id_to_word = {i+1:t for i,t in enumerate(vocab)}
+	id_to_word = {i:t for i,t in enumerate(vocab)}
 	with open(ID_TO_WORD_PATH, 'wb') as f:
 		pickle.dump(id_to_word, f)
 	

@@ -34,7 +34,7 @@ class Config(object):
 
         with open(self.WORD_TO_ID_PATH, 'rb') as f:
             self.WORD_TO_ID = pickle.load(f)
-        self.VOCAB_SIZE = len(self.WORD_TO_ID)+1
+        self.VOCAB_SIZE = len(self.WORD_TO_ID)
 
         if not(os.path.isdir(self.MODEL_PATH)):
             os.makedirs(self.MODEL_PATH)
@@ -55,7 +55,7 @@ class Config(object):
 
         with open(self.ID_TO_WORD_PATH, 'rb') as f:
             self.ID_TO_WORD = pickle.load(f)
-        self.VOCAB_SIZE = len(self.ID_TO_WORD)+1
+        self.VOCAB_SIZE = len(self.ID_TO_WORD)
 
         self.END_ID = [k for k, v in self.ID_TO_WORD.items() if v == '<end>'][0]
 
