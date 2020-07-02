@@ -41,8 +41,8 @@ class Config(object):
         
     def infer(self):
         self.BEAM_SIZE = 5
-        self.ENCODER_PATH = 'model/encoder-20-256-512-11305-1-208.pth'
-        self.DECODER_PATH = 'model/decoder-20-256-512-11305-1-208.pth'
+        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-1-179.pth'
+        self.DECODER_PATH = 'model/decoder-20-256-512-11312-1-179.pth'
 
         self.INFER_IMAGE_PATH = 'test/images/*'
         self.INFER_RESULT_PATH = 'test/result.txt'
@@ -58,5 +58,3 @@ class Config(object):
         self.VOCAB_SIZE = len(self.ID_TO_WORD)
 
         self.END_ID = [k for k, v in self.ID_TO_WORD.items() if v == '<end>'][0]
-
-

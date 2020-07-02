@@ -94,7 +94,7 @@ def infer():
                 if word == '<end>':
                     break
             sentence = ' '.join(sampled_caption)
-            print ("  {}.p = {:.3f} '{}'".format(i, prob.item(), sentence))
+            print ("  {}.p = {:.3f} '{}'".format(i+1, prob.item(), sentence))
 
             with open(INFER_RESULT_PATH, 'a') as f:
-                print("  {}.p = {:.3f} '{}'".format(i, prob.item(), sentence), file=f)
+                print("  {}.p = {:.3f} '{}'".format(i+1, prob.item(), sentence), file=f)

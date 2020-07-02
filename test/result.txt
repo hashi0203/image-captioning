@@ -608,3 +608,85 @@ file name: 3.jpg
   17.p = 9.752 '<start> a young person riding a surfboard on a wave <end>'
   18.p = 9.344 '<start> a young man riding a surfboard on top of a wave <end>'
   19.p = 9.153 '<start> a young man riding a surfboard on a wave <end>'
+
+---------------------
+date: 2020-07-02 23:33:27
+# 語彙修正後 14 Epoch 目
+encoder model: /home/u00286/image-captioning/model/encoder-14-256-512-11312-1-210.pth
+decoder model: /home/u00286/image-captioning/model/decoder-14-256-512-11312-1-210.pth
+
+file name: cat.jpg
+  1.p = 11.287 '<start> an orange and white cat laying in a green grass covered field <end>'
+  2.p = 10.680 '<start> an orange and white cat laying on a green grass covered field <end>'
+  3.p = 10.479 '<start> an orange and white cat sitting in the grass under a tree <end>'
+  4.p = 9.293 '<start> an orange and white cat sitting in the grass <end>'
+  5.p = 8.256 '<start> an orange and white cat sitting in the sun <end>'
+
+file name: 1.jpg
+  1.p = 11.668 '<start> two double decker buses driving down a city street <end>'
+  2.p = 11.502 '<start> a double decker bus drives down a city street <end>'
+  3.p = 11.403 '<start> a double decker bus is driving down the street <end>'
+  4.p = 10.861 '<start> a double decker bus is driving down the road <end>'
+  5.p = 9.415 '<start> two double decker buses parked next to each other <end>'
+
+file name: 2.jpg
+  1.p = 10.481 '<start> a group of people sitting at a dining tables eating food <end>'
+  2.p = 7.903 '<start> a group of people sitting at a table with a laptop <end>'
+  3.p = 7.590 '<start> a group of people sitting at a dining tables <end>'
+  4.p = 7.583 '<start> a group of people sitting at a dining tables eating <end>'
+  5.p = 7.471 '<start> a group of people sitting at a dining table <end>'
+
+file name: girl.jpg
+  1.p = 10.571 '<start> a little kid that is sitting on the ground with an open umbrella <end>'
+  2.p = 9.642 '<start> a little kid that is sitting on the ground with an umbrella <end>'
+  3.p = 9.187 '<start> a little kid that is sitting on the ground <end>'
+  4.p = 9.039 '<start> a little kid that is sitting in a chair <end>'
+  5.p = 8.709 '<start> a little kid that is sitting on the floor <end>'
+
+file name: 3.jpg
+  1.p = 12.745 '<start> a man riding a wave on top of a surfboard <end>'
+  2.p = 12.741 '<start> a person riding a wave on top of a surfboard <end>'
+  3.p = 11.755 '<start> a person on a surf board riding a wave <end>'
+  4.p = 10.852 '<start> a person riding a surf board on a wave <end>'
+  5.p = 10.559 '<start> a person on a surfboard riding a wave <end>'
+
+---------------------
+date: 2020-07-03 01:31:41
+# 語彙修正後
+encoder model: /home/u00286/image-captioning/model/encoder-20-256-512-11312-1-179.pth
+decoder model: /home/u00286/image-captioning/model/decoder-20-256-512-11312-1-179.pth
+
+file name: cat.jpg
+  1.p = 10.457 '<start> there is a cat that is sitting in the grass <end>'
+  2.p = 9.098 '<start> there is a cat that is sitting on the ground <end>'
+  3.p = 9.097 '<start> there is a cat that is sitting in a chair <end>'
+  4.p = 9.072 '<start> there is a small kitten sitting in the grass <end>'
+  5.p = 8.767 '<start> there is a cat that is sitting on the grass <end>'
+
+file name: 1.jpg
+  1.p = 11.231 '<start> a double decker bus is parked on a city street <end>'
+  2.p = 11.139 '<start> a double deckered bus on a city street <end>'
+  3.p = 10.780 '<start> a double decker bus is parked on the side of the road <end>'
+  4.p = 10.679 '<start> a double decker bus is parked on the side of the street <end>'
+  5.p = 9.758 '<start> a double decker bus is parked on the side of a street <end>'
+
+file name: 2.jpg
+  1.p = 11.632 '<start> a group of people sitting around a table eating food <end>'
+  2.p = 11.406 '<start> a group of people sitting at a table eating food <end>'
+  3.p = 7.068 '<start> a group of people sitting at a restaurant table eating <end>'
+  4.p = 6.900 '<start> a group of people sitting around a table eating <end>'
+  5.p = 6.829 '<start> a group of people sitting at a restaurant table <end>'
+
+file name: girl.jpg
+  1.p = 9.491 '<start> a woman and a little child standing next to each other in a room with a pink and white umbrella <end>'
+  2.p = 9.014 '<start> a woman and a little child standing next to each other in a room with a pink and blue umbrella <end>'
+  3.p = 8.454 '<start> a woman and a little child standing next to each other in a room <end>'
+  4.p = 8.120 '<start> a woman and a little child standing next to each other <end>'
+  5.p = 7.273 '<start> a woman and a little child standing next to each other in front of a cake <end>'
+
+file name: 3.jpg
+  1.p = 12.353 '<start> a man riding a wave on top of a surfboard <end>'
+  2.p = 11.664 '<start> a person riding a surf board on a body of water <end>'
+  3.p = 11.178 '<start> a person riding a surf board on a wave <end>'
+  4.p = 10.590 '<start> a person on a surfboard riding a wave <end>'
+  5.p = 10.201 '<start> a man riding a wave on a surfboard <end>'
