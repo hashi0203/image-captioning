@@ -4,8 +4,6 @@ import torchvision.datasets as dset
 from pycocotools.coco import COCO
 import pickle
 from PIL import Image
-# from nltk import tokenize
-# import re
 import random
 import sys
 import os
@@ -15,7 +13,7 @@ from vocab.vocab import process_sentence
 def COCO_loader(BATCH_SIZE,WORD_TO_ID,CAPTION_PATH,TRAIN_IMAGE_PATH):
 
     def tokenize_caption(caption):
-        process_sentence(caption)
+        tokens = process_sentence(caption)
 
         sent = ['<start>'] + tokens + ['<end>']
         sent_id = [WORD_TO_ID[t] if (t in WORD_TO_ID) else WORD_TO_ID['<unk>'] for t in sent]

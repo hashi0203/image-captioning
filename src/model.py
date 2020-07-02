@@ -91,25 +91,3 @@ class DecoderRNN(nn.Module):
                         beam.append((inputs, states_list[beam_idx[i]]))                     # beam: [(inputs, states)] * (BEAM_SIZE)
                     sampled_ids = tmp_sampled_ids                                           # sampled_ids: [(predicted ids, prob)] * (BEAM_SIZE)
         return sampled_ids
-
-    # def sample(self, features, BEAM_SIZE, states=None):
-    #     """Generate captions for given image features using greedy search."""
-    #     sampled_ids = []
-    #     inputs = features.unsqueeze(1)
-    #     for i in range(self.max_seg_length):
-    #         hiddens, states = self.lstm(inputs, states)          # hiddens: (batch_size, 1, HIDDEN_DIM)
-    #         outputs = self.linear(hiddens.squeeze(1))            # outputs:  (batch_size, VOCAB_SIZE)
-    #         idxs = [i] * len(outputs[0])
-    #         enu = list(range(len(idxs)))
-    #         pred = zip(idxs,enu)
-    #         predicted = heapsort(list(zip(pred,list(outputs[0]))),1) 
-    #         print(predicted)                       # predicted: (batch_size)
-    #         _, predicted = zip(*predicted)
-    #         predicted = torch.Tensor([predicted[0]]).long()
-    #         # predicted = predicted.view(-1)[:1]
-    #         # _, predicted = outputs.max(1)                        # predicted: (batch_size)
-    #         sampled_ids.append(predicted)
-    #         inputs = self.embed(predicted)                       # inputs: (batch_size, EMBEDDING_DIM)
-    #         inputs = inputs.unsqueeze(1)                         # inputs: (batch_size, 1, EMBEDDING_DIM)
-    #     sampled_ids = torch.stack(sampled_ids, 1)                # sampled_ids: (batch_size, max_seq_length)
-    #     return sampled_ids
