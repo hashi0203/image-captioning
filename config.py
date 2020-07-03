@@ -9,7 +9,7 @@ class Config(object):
 
         self.EMBEDDING_DIM = 256
         self.HIDDEN_DIM = 512
-        self.NUM_LAYERS = 1
+        self.NUM_LAYERS = 3
 
         self.CAPTION_PATH = 'data/train/captions_train2014.json'
         self.WORD_TO_ID_PATH = 'vocab/word_to_id.pkl'
