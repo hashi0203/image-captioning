@@ -3,7 +3,7 @@ import argparse
 from config import Config
 from vocab import vocab
 from src.train import train
-# from src import validate
+from src.eval import evalate
 from src.infer import infer
 
 # def save_img(img_name, img):
@@ -18,19 +18,19 @@ if __name__ == "__main__":
             add_help=True,
             )
 	
-	parser.add_argument('phase', help='to designate the phase (train, validate, infer)')
+	parser.add_argument('phase', help='to designate the phase (train, eval, infer)')
 	phase = parser.parse_args().phase
 
 	config = Config()
 	
 	if config.PREPARE_VOCAB:
-		vocab.prepare_vocab(config.CAPTION_PATH, config.WORD_TO_ID_PATH, config.ID_TO_WORD_PATH)
+		vocab.prepare_vocab(config.TRAIN_CAPTION_PATH, config.WORD_TO_ID_PATH, config.ID_TO_WORD_PATH)
 
 	if phase == 'train':
 		train()
-	elif phase == 'validate':
-		print('not yet')
+	elif phase == 'eval':
+		evalate()
 	elif phase == 'infer':
 		infer()
 	else:
-		print('the argument should be train, validate, or infer')
+		print('the argument should be train, eval, or infer')

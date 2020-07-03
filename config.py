@@ -9,14 +9,14 @@ class Config(object):
 
         self.EMBEDDING_DIM = 256
         self.HIDDEN_DIM = 512
-        self.NUM_LAYERS = 3
+        self.NUM_LAYERS = 6
 
-        self.CAPTION_PATH = 'data/train/captions_train2014.json'
+        self.TRAIN_CAPTION_PATH = 'data/train/captions_train2014.json'
         self.WORD_TO_ID_PATH = 'vocab/word_to_id.pkl'
         self.ID_TO_WORD_PATH = 'vocab/id_to_word.pkl'
 
         # Change relative path to absolute path
-        self.CAPTION_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.CAPTION_PATH)
+        self.TRAIN_CAPTION_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.TRAIN_CAPTION_PATH)
         self.WORD_TO_ID_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.WORD_TO_ID_PATH)
         self.ID_TO_WORD_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.ID_TO_WORD_PATH)
 
@@ -39,14 +39,95 @@ class Config(object):
         if not(os.path.isdir(self.MODEL_PATH)):
             os.makedirs(self.MODEL_PATH)
         
+    def eval(self):
+        self.BEAM_SIZE = 5
+        self.MAX_SEG_LENGTH=20
+
+        self.TEST_CAPTION_PATH = 'data/val/captions_val2014.json'
+        self.TEST_IMAGE_PATH = 'data/val/images'
+        self.TEST_RESULT_PATH = 'test/test_results-5.txt'
+
+        # # slurm-507562.out
+        # self.NUM_LAYERS = 1
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-1-203.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-1-203.pth'
+
+        # # slurm-507567.out
+        # self.NUM_LAYERS = 2
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-2-192.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-2-192.pth'
+
+        # # slurm-507568.out
+        # self.NUM_LAYERS = 3
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-3-211.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-3-211.pth'
+
+        # # slurm-507601.out
+        # self.NUM_LAYERS = 4
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-4-229.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-4-229.pth'
+        
+        # # slurm-507613.out
+        self.NUM_LAYERS = 5
+        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-5-254.pth'
+        self.DECODER_PATH = 'model/decoder-20-256-512-11312-5-254.pth'
+
+        # # slurm-507614.out
+        # self.NUM_LAYERS = 6
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-6-231.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-6-231.pth'
+
+        # Change relative path to absolute path
+        self.TEST_CAPTION_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.TEST_CAPTION_PATH)
+        self.TEST_IMAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.TEST_IMAGE_PATH)
+        self.TEST_RESULT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.TEST_RESULT_PATH)
+        self.ENCODER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.ENCODER_PATH)
+        self.DECODER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.DECODER_PATH)
+
+        with open(self.ID_TO_WORD_PATH, 'rb') as f:
+            self.ID_TO_WORD = pickle.load(f)
+        self.VOCAB_SIZE = len(self.ID_TO_WORD)
+
+        self.END_ID = [k for k, v in self.ID_TO_WORD.items() if v == '<end>'][0]
+
     def infer(self):
-        self.BEAM_SIZE = 10
+        self.BEAM_SIZE = 1
         self.MAX_SEG_LENGTH=20
         self.ENCODER_PATH = 'model/encoder-20-256-512-11312-1-179.pth'
         self.DECODER_PATH = 'model/decoder-20-256-512-11312-1-179.pth'
 
+        # # slurm-507562.out
+        # self.NUM_LAYERS = 1
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-1-203.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-1-203.pth'
+
+        # # slurm-507567.out
+        # self.NUM_LAYERS = 2
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-2-192.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-2-192.pth'
+
+        # slurm-507568.out
+        self.NUM_LAYERS = 3
+        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-3-211.pth'
+        self.DECODER_PATH = 'model/decoder-20-256-512-11312-3-211.pth'
+
+        # # slurm-507601.out
+        # self.NUM_LAYERS = 4
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-4-229.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-4-229.pth'
+        
+        # # slurm-507613.out
+        # self.NUM_LAYERS = 5
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-5-254.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-5-254.pth'
+
+        # # slurm-507614.out
+        # self.NUM_LAYERS = 6
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-6-231.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-6-231.pth'
+
         self.INFER_IMAGE_PATH = 'test/images/*'
-        self.INFER_RESULT_PATH = 'test/result.txt'
+        self.INFER_RESULT_PATH = 'test/infer_results.txt'
 
         # Change relative path to absolute path
         self.ENCODER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.ENCODER_PATH)

@@ -20,9 +20,9 @@ def process_sentence(caption):
 	return tokens
 
 
-def prepare_vocab(CAPTION_PATH, WORD_TO_ID_PATH, ID_TO_WORD_PATH):
+def prepare_vocab(TRAIN_CAPTION_PATH, WORD_TO_ID_PATH, ID_TO_WORD_PATH):
 	# Read caption info
-	coco = COCO(CAPTION_PATH)
+	coco = COCO(TRAIN_CAPTION_PATH)
 	anns_keys = coco.anns.keys()
 	
 	original_token = []

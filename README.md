@@ -1,6 +1,6 @@
 # Image Captioning
 
-This application is to train, validate and infer image captioning.
+This application is to train, evaluate and infer image captioning.
 Image captioning takes images as input and return the caption of the images as output.
 This program is based on "Show and Tell: A Neural Image Caption Generator" by Vinayls et al. (ICML2015), and implemented using "Pytorch".
 
@@ -75,7 +75,7 @@ This program is based on "Show and Tell: A Neural Image Caption Generator" by Vi
 
 	5. Model files are save in image-captioning/model if you didn't edit config.py.
 
-- Validate
+- Evaluate
 	1. Following 1, 2, 3 in Training section.
 	2. Todo
 
@@ -88,3 +88,23 @@ This program is based on "Show and Tell: A Neural Image Caption Generator" by Vi
 		python3 main.py 'infer'
 		```
 	4. Output will be shown in stdout and also you can check it in image-captioning/test/result.txt.
+
+# Reference
+```bash
+@article{DBLP:journals/corr/VinyalsTBE14,
+  author    = {Oriol Vinyals and
+               Alexander Toshev and
+               Samy Bengio and
+               Dumitru Erhan},
+  title     = {Show and Tell: {A} Neural Image Caption Generator},
+  journal   = {CoRR},
+  volume    = {abs/1411.4555},
+  year      = {2014},
+  url       = {http://arxiv.org/abs/1411.4555},
+  archivePrefix = {arXiv},
+  eprint    = {1411.4555},
+  timestamp = {Mon, 13 Aug 2018 16:47:52 +0200},
+  biburl    = {https://dblp.org/rec/journals/corr/VinyalsTBE14.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+```
