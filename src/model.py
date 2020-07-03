@@ -26,13 +26,14 @@ class EncoderCNN(nn.Module):
 
 
 class DecoderRNN(nn.Module):
-    def __init__(self, EMBEDDING_DIM, HIDDEN_DIM, VOCAB_SIZE, num_layers, max_seq_length=30):
+    def __init__(self, EMBEDDING_DIM, HIDDEN_DIM, VOCAB_SIZE, num_layers, MAX_SEG_LENGTH=20):
         # Set the hyper-parameters and build the layers.
         super(DecoderRNN, self).__init__()
         self.embed = nn.Embedding(VOCAB_SIZE, EMBEDDING_DIM)
         self.lstm = nn.LSTM(EMBEDDING_DIM, HIDDEN_DIM, num_layers, batch_first=True)
         self.linear = nn.Linear(HIDDEN_DIM, VOCAB_SIZE)
-        self.max_seg_length = max_seq_length
+        self.logsoftmax = nn.LogSoftmax(dim=1)
+        self.MAX_SEG_LENGTH = MAX_SEG_LENGTH
         self.VOCAB_SIZE = VOCAB_SIZE
         
     def forward(self, features, captions, lengths):
@@ -49,7 +50,7 @@ class DecoderRNN(nn.Module):
         inputs = features.unsqueeze(1)
         VOCAB_SIZE = self.VOCAB_SIZE
 
-        with tqdm(range(self.max_seg_length)) as pbar:
+        with tqdm(range(self.MAX_SEG_LENGTH)) as pbar:
             pbar.set_description("[Infering]")
             for j in pbar:
                 if j == 0:
@@ -57,6 +58,7 @@ class DecoderRNN(nn.Module):
                     # We expect the first token is <start>, so we choose only the one with the highest probability (it should be <start>)
                     hiddens, states = self.lstm(inputs, states)                             # hiddens: (1, 1, HIDDEN_DIM)
                     outputs = self.linear(hiddens.squeeze(1))                               # outputs: (1, VOCAB_SIZE)
+                    outputs = self.logsoftmax(outputs)
 
                     prob, predicted = outputs.max(1)                                        # predicted: (1)
                     sampled_ids = [(predicted, prob)]
@@ -73,6 +75,7 @@ class DecoderRNN(nn.Module):
                         else:
                             hiddens, states = self.lstm(inputs, states)                     # hiddens: (1, 1, HIDDEN_DIM)
                             outputs = self.linear(hiddens.squeeze(1))                       # outputs: (1, VOCAB_SIZE)
+                            outputs = self.logsoftmax(outputs) + sampled_ids[i][1]
                             states_list.append(states)
                     
                             idxs = zip([i] * VOCAB_SIZE, list(range(VOCAB_SIZE)))           # idx: [(beam_idx, vocab_idx)] * (VOCAB_SIZE)

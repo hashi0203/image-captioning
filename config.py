@@ -40,7 +40,8 @@ class Config(object):
             os.makedirs(self.MODEL_PATH)
         
     def infer(self):
-        self.BEAM_SIZE = 5
+        self.BEAM_SIZE = 10
+        self.MAX_SEG_LENGTH=20
         self.ENCODER_PATH = 'model/encoder-20-256-512-11312-1-179.pth'
         self.DECODER_PATH = 'model/decoder-20-256-512-11312-1-179.pth'
 
