@@ -35,6 +35,9 @@ def train():
     NUM_LAYERS = config.NUM_LAYERS
     WORD_TO_ID = config.WORD_TO_ID
 
+    print("[Parameters]: ")
+    print('\tLEARNING_RATE: {}\n\tBATCH_SIZE: {}\n\tNUM_EPOCHS: {}\n\tEMBEDDING_DIM: {}\n\tHIDDEN_DIM: {}\n\tVOCAB_SIZE {}'.format(LEARNING_RATE, BATCH_SIZE, NUM_EPOCHS, EMBEDDING_DIM, HIDDEN_DIM, VOCAB_SIZE))
+
     CAPTION_PATH = config.CAPTION_PATH
     TRAIN_IMAGE_PATH = config.TRAIN_IMAGE_PATH
     MODEL_PATH = config.MODEL_PATH
