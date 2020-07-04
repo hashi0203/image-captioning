@@ -2,7 +2,7 @@
 
 This application is to train, evaluate and infer image captioning.
 Image captioning takes images as input and return the caption of the images as output.
-This program is based on "Show and Tell: A Neural Image Caption Generator" by Vinayls et al. (ICML2015), and implemented using "Pytorch".
+This program is based on ["Show and Tell: A Neural Image Caption Generator" by Vinayls et al. (ICML2015)](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Vinyals_Show_and_Tell_2015_CVPR_paper.pdf), and implemented using "Pytorch".
 
 # DEMO
 
@@ -18,6 +18,7 @@ This program is based on "Show and Tell: A Neural Image Caption Generator" by Vi
  - torch==1.5.1+cu101
  - torchvision==0.6.1+cu101
  - tqdm==4.46.1
+ - torchtext==0.6.0
 
 # Installation
 
@@ -41,8 +42,9 @@ This program is based on "Show and Tell: A Neural Image Caption Generator" by Vi
 # Usage
 
  - Train
-	 1. Download datasets and captions.
-			This application uses MSCOCO dataset, and you can download them from following links.
+	 1. Download datasets and captions.  
+		This application uses MSCOCO dataset, and you can download them from following links.  
+		The train dataset is for training, the validation dataset is for evaluation, so you can download only what you need.
  
 		- [2014 Train images [83K/13GB]](http://images.cocodataset.org/zips/train2014.zip)  
 		- [2014 Val images [41K/6GB]](http://images.cocodataset.org/zips/val2014.zip)
@@ -68,26 +70,35 @@ This program is based on "Show and Tell: A Neural Image Caption Generator" by Vi
 	 3. Set (hyper)parameters in config.py.
 		It is also ok if you don't edit anything.
 
-	4. Start training.
+	4. Start training by using the Encoder CNN to change images to feature vectors and the Decoder RNN (LSTM) to change feature vectors to captions.
 		```bash
 		python3 main.py 'train'
 		```
+		Ref. It took 6.5 hours to complete with the default parameters by 4 GPUs in NVIDIA TESLA P100(Pascal). 
 
 	5. Model files are save in image-captioning/model if you didn't edit config.py.
 
 - Evaluate
 	1. Following 1, 2, 3 in Training section.
-	2. Todo
+	2. Set (hyper)parameters in config.py.
+		It is also ok if you don't edit anything, but be sure that the parameters should be the same as when training.
+	3. Start evaluating using the BLEU-4 score.
+		```bash
+		python3 main.py 'eval'
+		```
+		Ref. It took very long time if you use all images, so I recommend you to save outputs by setting LOG_STEP and stop evaluating when the values are stable. 
+		Ref. The Decoder RNN model runs faster if you use it in CPU than GPU.
+	4. Output will be shown in stdout and also you can check it in image-captioning/test/test_results.txt.
 
 - Infer
 	1. Prepare images which you want to make captions of and place it in image-captioning/test/images.
 	2. Set (hyper)parameters in config.py.
 		It is also ok if you don't edit anything, but be sure that the parameters should be the same as when training.
-	3. Start inferring.
+	3. Start inferring by beam search.
 		```bash
 		python3 main.py 'infer'
 		```
-	4. Output will be shown in stdout and also you can check it in image-captioning/test/result.txt.
+	4. Output will be shown in stdout and also you can check it in image-captioning/test/infer_results.txt.
 
 # Reference
 ```bash

@@ -28,3 +28,6 @@ date: 2020-07-04 05:14:37
 encoder model: /home/u00286/image-captioning/model/encoder-20-256-512-11312-1-203.pth
 decoder model: /home/u00286/image-captioning/model/decoder-20-256-512-11312-1-203.pth
 1.bleu score = 0.000
+1001.bleu score = 0.269
+2001.bleu score = 0.268
+3001.bleu score = 0.267

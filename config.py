@@ -2,8 +2,8 @@ import os
 import pickle
 
 class Config(object):
-    # Settings of (hyper)parameters
     # Set the relative path from the directory of this file
+    # Settings of general (hyper)parameters
     def __init__(self):
         self.PREPARE_VOCAB = False
 
@@ -20,6 +20,7 @@ class Config(object):
         self.WORD_TO_ID_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.WORD_TO_ID_PATH)
         self.ID_TO_WORD_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.ID_TO_WORD_PATH)
 
+    # Settings of (hyper)parameters for training
     def train(self):
         self.LEARNING_RATE = 0.001
         self.BATCH_SIZE = 128
@@ -39,13 +40,16 @@ class Config(object):
         if not(os.path.isdir(self.MODEL_PATH)):
             os.makedirs(self.MODEL_PATH)
         
+    # Settings of (hyper)parameters for evaluation
     def eval(self):
-        self.BEAM_SIZE = 5
+        self.BEAM_SIZE = 10
         self.MAX_SEG_LENGTH=20
+        self.LOG_STEP = 1000
+        self.NUM_EVAL_IMAGES = 10000 
 
         self.TEST_CAPTION_PATH = 'data/val/captions_val2014.json'
         self.TEST_IMAGE_PATH = 'data/val/images'
-        self.TEST_RESULT_PATH = 'test/test_results-5.txt'
+        self.TEST_RESULT_PATH = 'test/test_results-10-2.txt'
 
         # # slurm-507562.out
         # self.NUM_LAYERS = 1
@@ -53,9 +57,9 @@ class Config(object):
         # self.DECODER_PATH = 'model/decoder-20-256-512-11312-1-203.pth'
 
         # # slurm-507567.out
-        # self.NUM_LAYERS = 2
-        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-2-192.pth'
-        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-2-192.pth'
+        self.NUM_LAYERS = 2
+        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-2-192.pth'
+        self.DECODER_PATH = 'model/decoder-20-256-512-11312-2-192.pth'
 
         # # slurm-507568.out
         # self.NUM_LAYERS = 3
@@ -68,9 +72,9 @@ class Config(object):
         # self.DECODER_PATH = 'model/decoder-20-256-512-11312-4-229.pth'
         
         # # slurm-507613.out
-        self.NUM_LAYERS = 5
-        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-5-254.pth'
-        self.DECODER_PATH = 'model/decoder-20-256-512-11312-5-254.pth'
+        # self.NUM_LAYERS = 5
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-5-254.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-5-254.pth'
 
         # # slurm-507614.out
         # self.NUM_LAYERS = 6
@@ -90,6 +94,7 @@ class Config(object):
 
         self.END_ID = [k for k, v in self.ID_TO_WORD.items() if v == '<end>'][0]
 
+    # Settings of (hyper)parameters for inference
     def infer(self):
         self.BEAM_SIZE = 1
         self.MAX_SEG_LENGTH=20

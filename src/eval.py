@@ -31,6 +31,8 @@ def evalate():
     VOCAB_SIZE = config.VOCAB_SIZE
     BEAM_SIZE = config.BEAM_SIZE
     MAX_SEG_LENGTH = config.MAX_SEG_LENGTH
+    LOG_STEP = config.LOG_STEP
+    NUM_EVAL_IMAGES = config.NUM_EVAL_IMAGES
 
     ID_TO_WORD = config.ID_TO_WORD
     END_ID = config.END_ID
@@ -59,7 +61,11 @@ def evalate():
         print('encoder model: {}'.format(ENCODER_PATH), file=f)
         print('decoder model: {}'.format(DECODER_PATH), file=f)
 
+    print('encoder model: {}'.format(ENCODER_PATH))
+    print('decoder model: {}'.format(DECODER_PATH))
+
     # Build models
+    # for decoder cpu is faster
     decoder_device = torch.device('cpu')
     encoder = EncoderCNN(EMBEDDING_DIM).eval()
     decoder = DecoderRNN(EMBEDDING_DIM, HIDDEN_DIM, VOCAB_SIZE, NUM_LAYERS, MAX_SEG_LENGTH)
@@ -77,6 +83,13 @@ def evalate():
     with tqdm(testset) as pbar:
         pbar.set_description("[Evaluating Models]")
         for i, (image, labels) in enumerate(pbar):
+            if i == NUM_EVAL_IMAGES:
+                break
+            if i != 0 and i % LOG_STEP == 0:
+                score = bleu_score(candidates, references)
+                with open(TEST_RESULT_PATH, 'a') as f:
+                    print("{}.bleu score = {:.3f}".format(i, score), file=f)
+                print("{}.bleu score = {:.3f}".format(i, score))
             # Generate an caption from the image
             image = torch.unsqueeze(image, 0).to(device)
             feature = encoder(image)
@@ -95,16 +108,8 @@ def evalate():
             candidates.append(sampled_caption)
             labels = [process_sentence(l) for l in labels]
             references.append(labels)
-            
-            if i % 1000 == 0:
-                score = bleu_score(candidates, references)
-                with open(TEST_RESULT_PATH, 'a') as f:
-                    print("{}.bleu score = {:.3f}".format(i+1, score), file=f)
 
     score = bleu_score(candidates, references)
     with open(TEST_RESULT_PATH, 'a') as f:
-        print("{}.bleu score = {:.3f}".format(len(testset), score), file=f)
-    print(score)
-        
-if __name__ == "__main__":
-    eval()
+        print("{}.bleu score = {:.3f}".format(min(NUM_EVAL_IMAGES,len(testset)), score), file=f)
+    print("{}.bleu score = {:.3f}".format(min(NUM_EVAL_IMAGES,len(testset)), score))
