@@ -2,13 +2,10 @@ import torch
 import torchvision.transforms as transforms
 import torchvision.datasets as dset
 from pycocotools.coco import COCO
+from .vocab import process_sentence
 import pickle
 from PIL import Image
 import random
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../'))
-from vocab.vocab import process_sentence
 
 def COCO_loader(BATCH_SIZE,WORD_TO_ID,TRAIN_CAPTION_PATH,TRAIN_IMAGE_PATH):
 

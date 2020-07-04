@@ -7,3 +7,5 @@ decoder model: /home/u00286/image-captioning/model/decoder-20-256-512-11312-4-22
 1001.bleu score = 0.257
 2001.bleu score = 0.258
 3001.bleu score = 0.260
+4001.bleu score = 0.262
+5001.bleu score = 0.263

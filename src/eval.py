@@ -6,10 +6,10 @@ from torchtext.data.metrics import bleu_score
 from .model import EncoderCNN
 from .model import DecoderRNN
 from tqdm import tqdm
+from .vocab import process_sentence
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../'))
-from vocab.vocab import process_sentence
 from config import Config
 
 def date_print(str):
