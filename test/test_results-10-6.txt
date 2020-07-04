@@ -1,0 +1,5 @@
+
+---------------------
+date: 2020-07-04 23:15:16
+encoder model: /home/u00286/image-captioning/model/encoder-20-256-512-11312-6-231.pth
+decoder model: /home/u00286/image-captioning/model/decoder-20-256-512-11312-6-231.pth
