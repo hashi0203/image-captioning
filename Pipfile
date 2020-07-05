@@ -24,6 +24,7 @@ tqdm = "==4.46.1"
 Cycler = "==0.10.0"
 Cython = "==0.29.20"
 Pillow = "==7.1.2"
+torchtext = "*"
 
 [requires]
 python_version = "3"

@@ -1,0 +1,44 @@
+
+
+---------------------
+date: 2020-07-04 17:22:29
+encoder model: /home/u00286/image-captioning/model/encoder-20-256-512-11312-2-192.pth
+decoder model: /home/u00286/image-captioning/model/decoder-20-256-512-11312-2-192.pth
+
+---------------------
+date: 2020-07-04 17:22:49
+encoder model: /home/u00286/image-captioning/model/encoder-20-256-512-11312-2-192.pth
+decoder model: /home/u00286/image-captioning/model/decoder-20-256-512-11312-2-192.pth
+3.bleu score = 0.000
+6.bleu score = 0.151
+9.bleu score = 0.188
+12.bleu score = 0.162
+15.bleu score = 0.208
+
+---------------------
+date: 2020-07-04 17:23:45
+encoder model: /home/u00286/image-captioning/model/encoder-20-256-512-11312-2-192.pth
+decoder model: /home/u00286/image-captioning/model/decoder-20-256-512-11312-2-192.pth
+3.bleu score = 0.000
+6.bleu score = 0.157
+9.bleu score = 0.189
+12.bleu score = 0.156
+15.bleu score = 0.175
+
+---------------------
+date: 2020-07-04 17:24:27
+encoder model: /home/u00286/image-captioning/model/encoder-20-256-512-11312-2-192.pth
+decoder model: /home/u00286/image-captioning/model/decoder-20-256-512-11312-2-192.pth
+3.bleu score = 0.000
+6.bleu score = 0.149
+9.bleu score = 0.183
+10.bleu score = 0.171
+
+---------------------
+date: 2020-07-04 17:24:49
+encoder model: /home/u00286/image-captioning/model/encoder-20-256-512-11312-2-192.pth
+decoder model: /home/u00286/image-captioning/model/decoder-20-256-512-11312-2-192.pth
+3.bleu score = 0.000
+6.bleu score = 0.149
+9.bleu score = 0.183
+10.bleu score = 0.172

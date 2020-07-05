@@ -2,15 +2,12 @@ import torch
 import torchvision.transforms as transforms
 import torchvision.datasets as dset
 from pycocotools.coco import COCO
+from .vocab import process_sentence
 import pickle
 from PIL import Image
 import random
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../'))
-from vocab.vocab import process_sentence
 
-def COCO_loader(BATCH_SIZE,WORD_TO_ID,CAPTION_PATH,TRAIN_IMAGE_PATH):
+def COCO_loader(BATCH_SIZE,WORD_TO_ID,TRAIN_CAPTION_PATH,TRAIN_IMAGE_PATH):
 
     def tokenize_caption(caption):
         tokens = process_sentence(caption)
@@ -46,7 +43,7 @@ def COCO_loader(BATCH_SIZE,WORD_TO_ID,CAPTION_PATH,TRAIN_IMAGE_PATH):
             transforms.ToTensor(), 
             transforms.Normalize((0.485, 0.456, 0.406), 
                                 (0.229, 0.224, 0.225))])
-    trainset = dset.CocoCaptions(root=TRAIN_IMAGE_PATH, annFile=CAPTION_PATH, transform=trans)
+    trainset = dset.CocoCaptions(root=TRAIN_IMAGE_PATH, annFile=TRAIN_CAPTION_PATH, transform=trans)
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=BATCH_SIZE, shuffle=True, num_workers=4, collate_fn=collate_fn)
 
     return trainloader

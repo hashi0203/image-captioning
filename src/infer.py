@@ -37,6 +37,7 @@ def infer():
     NUM_LAYERS = config.NUM_LAYERS
     VOCAB_SIZE = config.VOCAB_SIZE
     BEAM_SIZE = config.BEAM_SIZE
+    MAX_SEG_LENGTH = config.MAX_SEG_LENGTH
 
     ID_TO_WORD = config.ID_TO_WORD
     END_ID = config.END_ID
@@ -61,7 +62,7 @@ def infer():
 
     # Build models
     encoder = EncoderCNN(EMBEDDING_DIM).eval()
-    decoder = DecoderRNN(EMBEDDING_DIM, HIDDEN_DIM, VOCAB_SIZE, NUM_LAYERS)
+    decoder = DecoderRNN(EMBEDDING_DIM, HIDDEN_DIM, VOCAB_SIZE, NUM_LAYERS, MAX_SEG_LENGTH)
     encoder = encoder.to(device)
     decoder = decoder.to(device)
 
@@ -94,7 +95,7 @@ def infer():
                 if word == '<end>':
                     break
             sentence = ' '.join(sampled_caption)
-            print ("  {}.p = {:.3f} '{}'".format(i+1, prob.item(), sentence))
+            print ("  {}.log p = {:.3f} '{}'".format(i+1, prob.item(), sentence))
 
             with open(INFER_RESULT_PATH, 'a') as f:
-                print("  {}.p = {:.3f} '{}'".format(i+1, prob.item(), sentence), file=f)
+                print("  {}.log p = {:.3f} '{}'".format(i+1, prob.item(), sentence), file=f)

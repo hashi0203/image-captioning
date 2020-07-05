@@ -6,7 +6,6 @@ from .model import EncoderCNN
 from .model import DecoderRNN
 from .data_loader import COCO_loader
 import os
-import pickle
 import numpy as np
 from tqdm import tqdm
 import sys
@@ -35,12 +34,15 @@ def train():
     NUM_LAYERS = config.NUM_LAYERS
     WORD_TO_ID = config.WORD_TO_ID
 
-    CAPTION_PATH = config.CAPTION_PATH
+    print("[Parameters]: ")
+    print('\tLEARNING_RATE: {}\n\tBATCH_SIZE: {}\n\tNUM_EPOCHS: {}\n\tEMBEDDING_DIM: {}\n\tHIDDEN_DIM: {}\n\tVOCAB_SIZE: {}\n\tNUM_LAYERS: {}'.format(LEARNING_RATE, BATCH_SIZE, NUM_EPOCHS, EMBEDDING_DIM, HIDDEN_DIM, VOCAB_SIZE, NUM_LAYERS))
+
+    TRAIN_CAPTION_PATH = config.TRAIN_CAPTION_PATH
     TRAIN_IMAGE_PATH = config.TRAIN_IMAGE_PATH
     MODEL_PATH = config.MODEL_PATH
 
     date_print("Loading Data.")
-    trainloader = COCO_loader(BATCH_SIZE,WORD_TO_ID,CAPTION_PATH,TRAIN_IMAGE_PATH)
+    trainloader = COCO_loader(BATCH_SIZE,WORD_TO_ID,TRAIN_CAPTION_PATH,TRAIN_IMAGE_PATH)
     # Build models
     encoder = EncoderCNN(EMBEDDING_DIM).to(device)
     decoder = DecoderRNN(EMBEDDING_DIM, HIDDEN_DIM, VOCAB_SIZE, NUM_LAYERS).to(device)
