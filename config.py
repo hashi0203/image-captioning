@@ -42,19 +42,19 @@ class Config(object):
         
     # Settings of (hyper)parameters for evaluation
     def eval(self):
-        self.BEAM_SIZE = 10
+        self.BEAM_SIZE = 5
         self.MAX_SEG_LENGTH = 20
         self.LOG_STEP = 1000
         self.NUM_EVAL_IMAGES = 10000 
 
         self.TEST_CAPTION_PATH = 'data/val/captions_val2014.json'
         self.TEST_IMAGE_PATH = 'data/val/images'
-        self.TEST_RESULT_PATH = 'test/test_results-10-6.txt'
+        self.TEST_RESULT_PATH = 'test/test_results.txt'
 
         # # slurm-507562.out
-        # self.NUM_LAYERS = 1
-        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-1-203.pth'
-        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-1-203.pth'
+        self.NUM_LAYERS = 1
+        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-1-203.pth'
+        self.DECODER_PATH = 'model/decoder-20-256-512-11312-1-203.pth'
 
         # # slurm-507567.out
         # self.NUM_LAYERS = 2
@@ -77,9 +77,9 @@ class Config(object):
         # self.DECODER_PATH = 'model/decoder-20-256-512-11312-5-254.pth'
 
         # # slurm-507614.out
-        self.NUM_LAYERS = 6
-        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-6-231.pth'
-        self.DECODER_PATH = 'model/decoder-20-256-512-11312-6-231.pth'
+        # self.NUM_LAYERS = 6
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-6-231.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-6-231.pth'
 
         # Change relative path to absolute path
         self.TEST_CAPTION_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.TEST_CAPTION_PATH)
