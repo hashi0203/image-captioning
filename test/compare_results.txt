@@ -1,0 +1,210 @@
+---------------------
+image: 0.jpg
+label: this wire metal rack holds several pairs of shoes and sandals
+l1, b1: log p = -9.452, a cat laying on top of a wooden chair
+l1, b5: log p = -9.452, a cat laying on top of a wooden chair
+l1, b10: log p = -8.596, a brown teddy bear sitting on top of a chair
+l2, b1: log p = -9.854, a teddy bear sitting in a basket on a chair
+l2, b5: log p = -8.008, a brown teddy bear sitting in a basket
+l2, b10: log p = -8.008, a brown teddy bear sitting in a basket
+l3, b1: log p = -10.104, a teddy bear is sitting on a car seat
+l3, b5: log p = -9.965, a teddy bear is sitting on the floor
+l3, b10: log p = -9.622, a brown teddy bear is sitting on the floor
+l4, b1: log p = -14.875, a dog is sitting on a chair with a bag
+l4, b5: log p = -9.628, a stuffed animal sitting on top of a bike
+l4, b10: log p = -9.628, a stuffed animal sitting on top of a bike
+l5, b1: log p = -14.206, a dog is sitting on a bed with a teddy bear
+l5, b5: log p = -9.803, a teddy bear sitting on top of a bed
+l5, b10: log p = -9.803, a teddy bear sitting on top of a bed
+l6, b1: log p = -11.211, a teddy bear sitting on a chair with a teddy bear
+l6, b5: log p = -8.296, a teddy bear sitting on top of a chair
+l6, b10: log p = -8.210, a teddy bear sitting on a wooden bench
+---------------------
+image: 1.jpg
+label: a motorcycle parked in a parking space next to another motorcycle
+l1, b1: log p = -19.016, a motorcycle parked next to a wall with a mural of the door
+l1, b5: log p = -8.292, a blue motorcycle parked next to other motorcycles
+l1, b10: log p = -5.991, a couple of motorcycles parked next to each other
+l2, b1: log p = -10.755, a black and white photo of a motorcycle parked on a street
+l2, b5: log p = -7.375, a couple of bikes parked next to each other
+l2, b10: log p = -7.375, a couple of bikes parked next to each other
+l3, b1: log p = -8.658, a motorcycle is parked on the side of the road
+l3, b5: log p = -7.954, a close up of a motorcycle parked next to each other
+l3, b10: log p = -6.192, a couple of motorcycles parked next to each other
+l4, b1: log p = -9.916, a motorcycle parked on a sidewalk next to a building
+l4, b5: log p = -7.625, a motorcycle is parked in a parking lot
+l4, b10: log p = -6.707, a row of motorcycles parked next to each other
+l5, b1: log p = -10.575, a motorcycle parked on a street next to a building
+l5, b5: log p = -8.393, a motorcycle parked on the side of a road
+l5, b10: log p = -7.799, a group of motorcycles parked next to each other
+l6, b1: log p = -7.334, a motorcycle parked on the side of a road
+l6, b5: log p = -7.334, a motorcycle parked on the side of a road
+l6, b10: log p = -7.334, a motorcycle parked on the side of a road
+---------------------
+image: 2.jpg
+label: a picture of a dog laying on the ground
+l1, b1: log p = -8.882, a dog riding on a leash on a leash
+l1, b5: log p = -6.171, a dog riding on the back of a bicycle
+l1, b10: log p = -6.171, a dog riding on the back of a bicycle
+l2, b1: log p = -8.083, a dog sitting on a sidewalk next to a bike
+l2, b5: log p = -8.079, a dog sitting on the sidewalk next to a bike
+l2, b10: log p = -8.079, a dog sitting on the sidewalk next to a bike
+l3, b1: log p = -11.577, a dog is walking down a street with a dog
+l3, b5: log p = -9.258, a dog walking down a street with a dog
+l3, b10: log p = -8.530, a couple of dogs walking down a street
+l4, b1: log p = -11.933, a dog is sitting on a sidewalk with a dog
+l4, b5: log p = -9.254, a dog walking down a street next to a building
+l4, b10: log p = -7.935, a dog that is sitting on a bike
+l5, b1: log p = -11.794, a dog is riding a bike down a street
+l5, b5: log p = -11.062, a dog that is sitting on the sidewalk
+l5, b10: log p = -9.671, a dog parked on the side of a street
+l6, b1: log p = -9.466, a dog is sitting on a bench in the street
+l6, b5: log p = -9.366, a dog sitting on a bench in the street
+l6, b10: log p = -8.154, a dog that is sitting on a bench
+---------------------
+image: 3.jpg
+label: a loft bed with a dresser underneath it
+l1, b1: log p = -10.038, a wooden table topped with a wooden chair
+l1, b5: log p = -7.445, a wooden table topped with lots of wooden furniture
+l1, b10: log p = -7.445, a wooden table topped with lots of wooden furniture
+l2, b1: log p = -10.582, a wooden bunk bed with a wooden seat
+l2, b5: log p = -8.738, bunk beds in a room with bunk beds
+l2, b10: log p = -6.525, a couple of bunk beds in a room
+l3, b1: log p = -15.223, a bunk bed with a wooden frame and a wooden frame
+l3, b5: log p = -12.208, a room with a bunk bed and a bunk bed
+l3, b10: log p = -9.756, a couple of beds that are in a room
+l4, b1: log p = -12.077, a room with a bed and a table
+l4, b5: log p = -10.149, a room with two beds and a table
+l4, b10: log p = -10.149, a room with two beds and a table
+l5, b1: log p = -16.778, a bed with a book and a book on top of it
+l5, b5: log p = -11.174, a bed that is sitting on a bed
+l5, b10: log p = -11.174, a bed that is sitting on a bed
+l6, b1: log p = -17.481, a bathroom with a table and a table with a vase of flowers
+l6, b5: log p = -12.108, a bathroom with a sink and a table
+l6, b10: log p = -12.108, a bathroom with a sink and a table
+---------------------
+image: 4.jpg
+label: two giraffes in a room with people looking at them
+l1, b1: log p = -11.275, a giraffe standing next to a fence with a woman
+l1, b5: log p = -6.267, a couple of giraffe standing next to each other
+l1, b10: log p = -6.267, a couple of giraffe standing next to each other
+l2, b1: log p = -9.143, a giraffe standing in a fenced in area
+l2, b5: log p = -6.680, a couple of giraffes standing next to each other
+l2, b10: log p = -6.028, a couple of giraffe standing next to each other
+l3, b1: log p = -5.446, a giraffe standing next to a wooden fence
+l3, b5: log p = -5.446, a giraffe standing next to a wooden fence
+l3, b10: log p = -5.446, a giraffe standing next to a wooden fence
+l4, b1: log p = -10.899, a giraffe standing next to a giraffe in a zoo
+l4, b5: log p = -6.551, a couple of giraffe standing next to each other
+l4, b10: log p = -6.551, a couple of giraffe standing next to each other
+l5, b1: log p = -10.994, a giraffe standing next to a fence in a zoo
+l5, b5: log p = -6.569, a couple of giraffe standing next to each other
+l5, b10: log p = -6.569, a couple of giraffe standing next to each other
+l6, b1: log p = -11.544, a giraffe is standing in a fenced area
+l6, b5: log p = -8.027, a couple of giraffes standing next to each other
+l6, b10: log p = -8.027, a couple of giraffes standing next to each other
+---------------------
+image: 5.jpg
+label: a woman stands in the dining area at the table
+l1, b1: log p = -11.301, a kitchen with a table and chairs and a table
+l1, b5: log p = -5.912, a living room filled with furniture and a fire place
+l1, b10: log p = -5.912, a living room filled with furniture and a fire place
+l2, b1: log p = -9.867, a living room with a couch and a television
+l2, b5: log p = -6.204, a living room filled with furniture and decor
+l2, b10: log p = -6.204, a living room filled with furniture and decor
+l3, b1: log p = -10.198, a living room with a couch and a table
+l3, b5: log p = -7.424, a living room filled with furniture and a fire place
+l3, b10: log p = -7.424, a living room filled with furniture and a fire place
+l4, b1: log p = -10.074, a living room with a couch and a table
+l4, b5: log p = -6.924, a living room filled with furniture and a fireplace
+l4, b10: log p = -6.924, a living room filled with furniture and a fireplace
+l5, b1: log p = -11.839, a living room with a large table and a table
+l5, b5: log p = -9.187, a living room filled with lots of furniture
+l5, b10: log p = -9.187, a living room filled with lots of furniture
+l6, b1: log p = -9.842, a kitchen with a table and a table
+l6, b5: log p = -9.247, a living room with a fireplace and chairs
+l6, b10: log p = -9.247, a living room with a fireplace and chairs
+---------------------
+image: 6.jpg
+label: birds perch on a bunch of twigs in the winter
+l1, b1: log p = -6.585, a flock of birds sitting on top of a tree branch
+l1, b5: log p = -6.585, a flock of birds sitting on top of a tree branch
+l1, b10: log p = -6.585, a flock of birds sitting on top of a tree branch
+l2, b1: log p = -6.140, a flock of birds sitting on top of a tree
+l2, b5: log p = -6.140, a flock of birds sitting on top of a tree
+l2, b10: log p = -6.140, a flock of birds sitting on top of a tree
+l3, b1: log p = -6.151, a group of birds perched on top of a tree
+l3, b5: log p = -6.104, a group of birds sitting on top of a tree
+l3, b10: log p = -6.104, a group of birds sitting on top of a tree
+l4, b1: log p = -7.301, a couple of birds sitting on top of a tree
+l4, b5: log p = -7.301, a couple of birds sitting on top of a tree
+l4, b10: log p = -7.301, a couple of birds sitting on top of a tree
+l5, b1: log p = -7.484, a bird is perched on a tree branch
+l5, b5: log p = -7.454, a bird is sitting on a tree branch
+l5, b10: log p = -7.454, a bird is sitting on a tree branch
+l6, b1: log p = -8.464, a bird sitting on a branch of a tree
+l6, b5: log p = -8.213, a group of birds sitting on a tree branch
+l6, b10: log p = -8.213, a group of birds sitting on a tree branch
+---------------------
+image: 7.jpg
+label: a small kitchen with low a ceiling
+l1, b1: log p = -10.697, a kitchen with a table chairs and a refrigerator
+l1, b5: log p = -8.346, a kitchen filled with lots of counter top space
+l1, b10: log p = -8.035, a living room filled with furniture and a window
+l2, b1: log p = -8.449, a kitchen with a sink and a refrigerator
+l2, b5: log p = -8.449, a kitchen with a sink and a refrigerator
+l2, b10: log p = -8.449, a kitchen with a sink and a refrigerator
+l3, b1: log p = -12.294, a kitchen with a table and chairs and a table
+l3, b5: log p = -9.624, a kitchen area with a table and chairs
+l3, b10: log p = -9.498, a kitchen with wooden cabinets and wooden cabinets
+l4, b1: log p = -11.106, a kitchen with a counter top and a counter
+l4, b5: log p = -10.005, a kitchen with a counter and a table
+l4, b10: log p = -8.873, a woman standing in front of a kitchen counter
+l5, b1: log p = -13.448, a kitchen with a large table and a table
+l5, b5: log p = -10.623, a living room filled with lots of furniture
+l5, b10: log p = -10.623, a living room filled with lots of furniture
+l6, b1: log p = -9.526, a kitchen with a stove and a refrigerator
+l6, b5: log p = -9.526, a kitchen with a stove and a refrigerator
+l6, b10: log p = -9.526, a kitchen with a stove and a refrigerator
+---------------------
+image: 8.jpg
+label: a group of baseball players is crowded at the mound
+l1, b1: log p = -6.051, a baseball player hitting a baseball with a bat
+l1, b5: log p = -5.177, a batter catcher and umpire during a baseball game
+l1, b10: log p = -5.177, a batter catcher and umpire during a baseball game
+l2, b1: log p = -5.465, a baseball player swinging a bat at a ball
+l2, b5: log p = -4.515, a batter catcher and umpire during a baseball game
+l2, b10: log p = -4.515, a batter catcher and umpire during a baseball game
+l3, b1: log p = -6.437, a baseball player holding a bat on a field
+l3, b5: log p = -6.287, a group of baseball players playing a game of baseball
+l3, b10: log p = -5.130, a batter catcher and umpire during a baseball game
+l4, b1: log p = -8.303, a baseball player is swinging his bat at a ball
+l4, b5: log p = -4.921, a baseball player swinging a bat at a ball
+l4, b10: log p = -4.921, a baseball player swinging a bat at a ball
+l5, b1: log p = -9.566, a baseball player is swinging a bat at a baseball
+l5, b5: log p = -7.597, a baseball player swinging a bat at a baseball
+l5, b10: log p = -7.597, a baseball player swinging a bat at a baseball
+l6, b1: log p = -6.733, a baseball player is swinging a bat at a ball
+l6, b5: log p = -5.258, a baseball player swinging a bat at a ball
+l6, b10: log p = -5.258, a baseball player swinging a bat at a ball
+---------------------
+image: 9.jpg
+label: this table is filled with a variety of different dishes
+l1, b1: log p = -10.585, a table with plates of food and a bowl of salad
+l1, b5: log p = -6.877, a table filled with different types of food
+l1, b10: log p = -6.747, a table that has some food on it
+l2, b1: log p = -10.883, a table with various dishes of food and drinks
+l2, b5: log p = -6.528, a table that has some food on it
+l2, b10: log p = -6.528, a table that has some food on it
+l3, b1: log p = -9.354, a table with a bunch of food on it
+l3, b5: log p = -8.069, a table full of different types of food
+l3, b10: log p = -7.769, a table filled with different types of food
+l4, b1: log p = -7.657, a table with plates of food and plates of food
+l4, b5: log p = -7.441, a table with plates of food on it
+l4, b10: log p = -7.441, a table with plates of food on it
+l5, b1: log p = -13.365, a table with a variety of food and a variety of food
+l5, b5: log p = -10.402, a table of food and a variety of food
+l5, b10: log p = -9.424, a table filled with lots of food on a table
+l6, b1: log p = -10.121, a table with a plate of food and a glass of wine
+l6, b5: log p = -8.311, a table topped with plates of food on a table
+l6, b10: log p = -7.858, a table with a variety of plates of food

@@ -1,14 +1,10 @@
-# import matplotlib.pyplot as plt
 import argparse
 from config import Config
 from src.vocab import prepare_vocab
 from src.train import train
 from src.eval import evalate
 from src.infer import infer
-
-# def save_img(img_name, img):
-# 	img_np = img.to('cpu').detach().numpy().copy()
-# 	plt.imsave(img_name, img_np[0])
+from src.compare import compare
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(
@@ -32,5 +28,7 @@ if __name__ == "__main__":
 		evalate()
 	elif phase == 'infer':
 		infer()
+	elif phase == 'compare':
+		compare()
 	else:
 		print('the argument should be train, eval, or infer')

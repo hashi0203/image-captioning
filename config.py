@@ -9,7 +9,7 @@ class Config(object):
 
         self.EMBEDDING_DIM = 256
         self.HIDDEN_DIM = 512
-        self.NUM_LAYERS = 6
+        self.NUM_LAYERS = 2
 
         self.TRAIN_CAPTION_PATH = 'data/train/captions_train2014.json'
         self.WORD_TO_ID_PATH = 'vocab/word_to_id.pkl'
@@ -98,8 +98,6 @@ class Config(object):
     def infer(self):
         self.BEAM_SIZE = 5
         self.MAX_SEG_LENGTH=20
-        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-1-179.pth'
-        self.DECODER_PATH = 'model/decoder-20-256-512-11312-1-179.pth'
 
         # # slurm-507562.out
         # self.NUM_LAYERS = 1
@@ -107,14 +105,14 @@ class Config(object):
         # self.DECODER_PATH = 'model/decoder-20-256-512-11312-1-203.pth'
 
         # # slurm-507567.out
-        # self.NUM_LAYERS = 2
-        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-2-192.pth'
-        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-2-192.pth'
+        self.NUM_LAYERS = 2
+        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-2-192.pth'
+        self.DECODER_PATH = 'model/decoder-20-256-512-11312-2-192.pth'
 
         # slurm-507568.out
-        self.NUM_LAYERS = 3
-        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-3-211.pth'
-        self.DECODER_PATH = 'model/decoder-20-256-512-11312-3-211.pth'
+        # self.NUM_LAYERS = 3
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-3-211.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-3-211.pth'
 
         # # slurm-507601.out
         # self.NUM_LAYERS = 4
@@ -139,6 +137,46 @@ class Config(object):
         self.DECODER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.DECODER_PATH)
         self.INFER_IMAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.INFER_IMAGE_PATH)
         self.INFER_RESULT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.INFER_RESULT_PATH)
+
+        with open(self.ID_TO_WORD_PATH, 'rb') as f:
+            self.ID_TO_WORD = pickle.load(f)
+        self.VOCAB_SIZE = len(self.ID_TO_WORD)
+
+        self.END_ID = [k for k, v in self.ID_TO_WORD.items() if v == '<end>'][0]
+
+    # Settings of (hyper)parameters for comparison
+    def compare(self):
+        self.BEAM_SIZE_LIST = [1,5,10]
+        self.MAX_SEG_LENGTH = 20
+        self.NUM_COMPARE_IMAGES = 10 
+
+        self.TEST_CAPTION_PATH = 'data/val/captions_val2014.json'
+        self.TEST_IMAGE_PATH = 'data/val/images'
+        self.COMPARE_IMAGE_PATH = 'test/compare_images'
+        self.COMPARE_RESULT_PATH = 'test/compare_results.txt'
+
+        self.ENCODER_PATH_LIST = ['model/encoder-20-256-512-11312-1-203.pth',
+                                  'model/encoder-20-256-512-11312-2-192.pth',
+                                  'model/encoder-20-256-512-11312-3-211.pth',
+                                  'model/encoder-20-256-512-11312-4-229.pth',
+                                  'model/encoder-20-256-512-11312-5-254.pth',
+                                  'model/encoder-20-256-512-11312-6-231.pth']
+        self.DECODER_PATH_LIST = ['model/decoder-20-256-512-11312-1-203.pth',
+                                  'model/decoder-20-256-512-11312-2-192.pth',
+                                  'model/decoder-20-256-512-11312-3-211.pth',
+                                  'model/decoder-20-256-512-11312-4-229.pth',
+                                  'model/decoder-20-256-512-11312-5-254.pth',
+                                  'model/decoder-20-256-512-11312-6-231.pth']
+
+        self.NUM_LAYERS_LIST = [1, 2, 3, 4, 5, 6]
+
+        # Change relative path to absolute path
+        self.TEST_CAPTION_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.TEST_CAPTION_PATH)
+        self.TEST_IMAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.TEST_IMAGE_PATH)
+        self.COMPARE_IMAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.COMPARE_IMAGE_PATH)
+        self.COMPARE_RESULT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.COMPARE_RESULT_PATH)
+        self.ENCODER_PATH_LIST = [os.path.join(os.path.dirname(os.path.abspath(__file__)), f) for f in self.ENCODER_PATH_LIST]
+        self.DECODER_PATH_LIST = [os.path.join(os.path.dirname(os.path.abspath(__file__)), f) for f in self.DECODER_PATH_LIST]
 
         with open(self.ID_TO_WORD_PATH, 'rb') as f:
             self.ID_TO_WORD = pickle.load(f)

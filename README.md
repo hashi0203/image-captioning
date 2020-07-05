@@ -6,7 +6,13 @@ This program is based on ["Show and Tell: A Neural Image Caption Generator" by V
 
 # DEMO
 
-### Todo
+|<img src="https://github.com/hashi0203/image-captioning/blob/master/test/images/cat.jpg?raw=true" alt="img0" width="400px"> |<img src="https://github.com/hashi0203/image-captioning/blob/master/test/images/1.jpg?raw=true" alt="img1" width="400px">                     |
+|-------------------------------|-----------------------------|
+|a brown and white cat sitting in the grass    |a red double decker bus driving down a street |
+
+|<img src="https://github.com/hashi0203/image-captioning/blob/master/test/images/2.jpg?raw=true" alt="img2" width="400px"> |<img src="https://github.com/hashi0203/image-captioning/blob/master/test/images/3.jpg?raw=true" alt="img3" width="400px">                     |
+|-------------------------------|-----------------------------|
+|a group of people sitting around a table eating food            |a man riding a wave on top of a surfboard            |
 
 # Requirement
 
@@ -74,7 +80,8 @@ This program is based on ["Show and Tell: A Neural Image Caption Generator" by V
 		```bash
 		python3 main.py 'train'
 		```
-		Ref. It took 6.5 hours to complete with the default parameters by 4 GPUs in NVIDIA TESLA P100(Pascal). 
+		Ref. It took 6.5 hours to complete with the default parameters by 4 GPUs in NVIDIA TESLA P100(Pascal).  
+		Ref. Final loss was 1.9155 in this case.
 
 	5. Model files are save in image-captioning/model if you didn't edit config.py.
 
@@ -88,6 +95,7 @@ This program is based on ["Show and Tell: A Neural Image Caption Generator" by V
 		```
 		Ref. It took very long time if you use all images, so I recommend you to save outputs by setting LOG_STEP and stop evaluating when the values are stable. 
 		Ref. The Decoder RNN model runs faster if you use it in CPU than GPU.
+		Ref. BLEU-4 score by 5000 images was 0.266 in this case.
 	4. Output will be shown in stdout and also you can check it in image-captioning/test/test_results.txt.
 
 - Infer
