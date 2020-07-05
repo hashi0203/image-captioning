@@ -45,21 +45,21 @@ class Config(object):
         self.BEAM_SIZE = 5
         self.MAX_SEG_LENGTH = 20
         self.LOG_STEP = 1000
-        self.NUM_EVAL_IMAGES = 10000 
+        self.NUM_EVAL_IMAGES = 5000 
 
         self.TEST_CAPTION_PATH = 'data/val/captions_val2014.json'
         self.TEST_IMAGE_PATH = 'data/val/images'
         self.TEST_RESULT_PATH = 'test/test_results.txt'
 
         # # slurm-507562.out
-        self.NUM_LAYERS = 1
-        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-1-203.pth'
-        self.DECODER_PATH = 'model/decoder-20-256-512-11312-1-203.pth'
+        # self.NUM_LAYERS = 1
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-1-203.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-1-203.pth'
 
         # # slurm-507567.out
-        # self.NUM_LAYERS = 2
-        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-2-192.pth'
-        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-2-192.pth'
+        self.NUM_LAYERS = 2
+        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-2-192.pth'
+        self.DECODER_PATH = 'model/decoder-20-256-512-11312-2-192.pth'
 
         # # slurm-507568.out
         # self.NUM_LAYERS = 3
