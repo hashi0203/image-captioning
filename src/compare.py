@@ -9,7 +9,6 @@ from tqdm import tqdm
 from .vocab import process_sentence
 import matplotlib.pyplot as plt
 import numpy as np
-from PIL import Image
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../'))
@@ -17,15 +16,6 @@ from config import Config
 
 def date_print(str):
     print('[{:%Y-%m-%d %H:%M:%S}]: {}'.format(datetime.datetime.now(), str))
-
-def save_img(img_name, img):
-    # img_np = img.to('cpu').detach().numpy().copy()
-    # img_np[0].save(img_name)
-    # plt.imsave(img_name, img_np[0])
-    # plt.imsave(img_name,img[0].permute(1, 2, 0).detach().numpy().copy())
-    ts = transforms.ToPILImage()
-    im = ts(img[0])
-    plt.imsave(img_name, np.array(im))
 
 def compare():
     # Choose Device
@@ -65,17 +55,6 @@ def compare():
                                 (0.229, 0.224, 0.225))])
     testset = dset.CocoCaptions(root=TEST_IMAGE_PATH, annFile=TEST_CAPTION_PATH)
 
-    # # Write log info
-    # with open(COMPARE_RESULT_PATH, 'a') as f:
-    #     print("", file=f)
-    #     print('---------------------', file=f)
-    #     print('date: {:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now()), file=f)
-    #     print('encoder model: {}'.format(ENCODER_PATH), file=f)
-    #     print('decoder model: {}'.format(DECODER_PATH), file=f)
-
-    # print('encoder model: {}'.format(ENCODER_PATH))
-    # print('decoder model: {}'.format(DECODER_PATH))
-
     # Build models
     # for decoder cpu is faster
     decoder_device = torch.device('cpu')
@@ -100,7 +79,7 @@ def compare():
 
         ret = ["---------------------", "image: {}.jpg".format(i)]
         label = ' '.join(process_sentence(labels[0]))
-        ret.append("label: {}".format(label))
+        ret.append("ground truth: {}".format(label))
         image = torch.unsqueeze(trans(image), 0).to(device)
         with tqdm(NUM_LAYERS_LIST) as pbar:
             pbar.set_description("[Image {}]".format(i))

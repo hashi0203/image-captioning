@@ -7,11 +7,11 @@ This program is based on ["Show and Tell: A Neural Image Caption Generator" by V
 # DEMO
 
 |<img src="https://github.com/hashi0203/image-captioning/blob/master/test/images/cat.jpg?raw=true" alt="img0" width="400px"> |<img src="https://github.com/hashi0203/image-captioning/blob/master/test/images/1.jpg?raw=true" alt="img1" width="400px">                     |
-|-------------------------------|-----------------------------|
+|:-------------------------------:|:-----------------------------:|
 |a brown and white cat sitting in the grass    |a red double decker bus driving down a street |
 
 |<img src="https://github.com/hashi0203/image-captioning/blob/master/test/images/2.jpg?raw=true" alt="img2" width="400px"> |<img src="https://github.com/hashi0203/image-captioning/blob/master/test/images/3.jpg?raw=true" alt="img3" width="400px">                     |
-|-------------------------------|-----------------------------|
+|:-------------------------------:|:-----------------------------:|
 |a group of people sitting around a table eating food            |a man riding a wave on top of a surfboard            |
 
 # Requirement
