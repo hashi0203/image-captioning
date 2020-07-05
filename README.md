@@ -6,7 +6,7 @@ This program is based on ["Show and Tell: A Neural Image Caption Generator" by V
 
 # DEMO
 
-|<img src="https://github.com/hashi0203/image-captioning/blob/master/test/images/cat.jpg?raw=true" alt="img0" width="400px"> |<img src="https://github.com/hashi0203/image-captioning/blob/master/test/images/1.jpg?raw=true" alt="img1" width="400px">                     |
+|<img src="https://github.com/hashi0203/image-captioning/blob/master/test/images/0.jpg?raw=true" alt="img0" width="400px"> |<img src="https://github.com/hashi0203/image-captioning/blob/master/test/images/1.jpg?raw=true" alt="img1" width="400px">                     |
 |:-------------------------------:|:-----------------------------:|
 |a brown and white cat sitting in the grass    |a red double decker bus driving down a street |
 
