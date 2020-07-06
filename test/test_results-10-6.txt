@@ -6,3 +6,5 @@ decoder model: /home/u00286/image-captioning/model/decoder-20-256-512-11312-6-23
 1000.bleu score = 0.247
 2000.bleu score = 0.247
 3000.bleu score = 0.248
+4000.bleu score = 0.247
+5000.bleu score = 0.248
