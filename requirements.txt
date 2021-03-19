@@ -10,7 +10,7 @@ kiwisolver==1.2.0
 matplotlib==3.3.0rc1
 nltk==3.5
 numpy==1.19.0
-Pillow==7.1.2
+Pillow==8.1.1
 pycocotools==2.0
 pyparsing==3.0.0a1
 python-dateutil==2.8.1
