@@ -19,7 +19,7 @@ This program is based on ["Show and Tell: A Neural Image Caption Generator" by V
  - Python==3.6.3
  - nltk==3.5
  - numpy==1.19.0
- - Pillow==7.1.2
+ - Pillow==8.1.2
  - pycocotools==2.0
  - torch==1.5.1+cu101
  - torchvision==0.6.1+cu101
