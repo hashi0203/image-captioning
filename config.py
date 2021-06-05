@@ -39,17 +39,17 @@ class Config(object):
 
         if not(os.path.isdir(self.MODEL_PATH)):
             os.makedirs(self.MODEL_PATH)
-        
+
     # Settings of (hyper)parameters for evaluation
     def eval(self):
         self.BEAM_SIZE = 5
         self.MAX_SEG_LENGTH = 20
         self.LOG_STEP = 1000
-        self.NUM_EVAL_IMAGES = 5000 
+        self.NUM_EVAL_IMAGES = 5000
 
         self.TEST_CAPTION_PATH = 'data/val/captions_val2014.json'
         self.TEST_IMAGE_PATH = 'data/val/images'
-        self.TEST_RESULT_PATH = 'test/test_results.txt'
+        self.TEST_RESULT_PATH = 'log/test_results.txt'
 
         # # slurm-507562.out
         # self.NUM_LAYERS = 1
@@ -58,8 +58,10 @@ class Config(object):
 
         # # slurm-507567.out
         self.NUM_LAYERS = 2
-        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-2-192.pth'
-        self.DECODER_PATH = 'model/decoder-20-256-512-11312-2-192.pth'
+        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-2-188.pth'
+        self.DECODER_PATH = 'model/decoder-20-256-512-11312-2-188.pth'
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-2-192.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-2-192.pth'
 
         # # slurm-507568.out
         # self.NUM_LAYERS = 3
@@ -70,7 +72,7 @@ class Config(object):
         # self.NUM_LAYERS = 4
         # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-4-229.pth'
         # self.DECODER_PATH = 'model/decoder-20-256-512-11312-4-229.pth'
-        
+
         # # slurm-507613.out
         # self.NUM_LAYERS = 5
         # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-5-254.pth'
@@ -106,8 +108,10 @@ class Config(object):
 
         # # slurm-507567.out
         self.NUM_LAYERS = 2
-        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-2-192.pth'
-        self.DECODER_PATH = 'model/decoder-20-256-512-11312-2-192.pth'
+        self.ENCODER_PATH = 'model/encoder-20-256-512-11312-2-188.pth'
+        self.DECODER_PATH = 'model/decoder-20-256-512-11312-2-188.pth'
+        # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-2-192.pth'
+        # self.DECODER_PATH = 'model/decoder-20-256-512-11312-2-192.pth'
 
         # slurm-507568.out
         # self.NUM_LAYERS = 3
@@ -118,7 +122,7 @@ class Config(object):
         # self.NUM_LAYERS = 4
         # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-4-229.pth'
         # self.DECODER_PATH = 'model/decoder-20-256-512-11312-4-229.pth'
-        
+
         # # slurm-507613.out
         # self.NUM_LAYERS = 5
         # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-5-254.pth'
@@ -129,8 +133,8 @@ class Config(object):
         # self.ENCODER_PATH = 'model/encoder-20-256-512-11312-6-231.pth'
         # self.DECODER_PATH = 'model/decoder-20-256-512-11312-6-231.pth'
 
-        self.INFER_IMAGE_PATH = 'test/images/*'
-        self.INFER_RESULT_PATH = 'test/infer_results.txt'
+        self.INFER_IMAGE_PATH = 'images'
+        self.INFER_RESULT_PATH = 'log/infer_results.txt'
 
         # Change relative path to absolute path
         self.ENCODER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.ENCODER_PATH)
@@ -146,29 +150,23 @@ class Config(object):
 
     # Settings of (hyper)parameters for comparison
     def compare(self):
-        self.BEAM_SIZE_LIST = [1,5,10]
+        self.BEAM_SIZE_LIST = [1, 5, 10] # Set beam size that you want to try
         self.MAX_SEG_LENGTH = 20
-        self.NUM_COMPARE_IMAGES = 10 
+        self.NUM_COMPARE_IMAGES = 10
 
         self.TEST_CAPTION_PATH = 'data/val/captions_val2014.json'
         self.TEST_IMAGE_PATH = 'data/val/images'
-        self.COMPARE_IMAGE_PATH = 'test/compare_images'
-        self.COMPARE_RESULT_PATH = 'test/compare_results.txt'
+        self.COMPARE_IMAGE_PATH = 'log/compare_images'
+        self.COMPARE_RESULT_PATH = 'log/compare_results.txt'
 
-        self.ENCODER_PATH_LIST = ['model/encoder-20-256-512-11312-1-203.pth',
-                                  'model/encoder-20-256-512-11312-2-192.pth',
-                                  'model/encoder-20-256-512-11312-3-211.pth',
-                                  'model/encoder-20-256-512-11312-4-229.pth',
-                                  'model/encoder-20-256-512-11312-5-254.pth',
-                                  'model/encoder-20-256-512-11312-6-231.pth']
-        self.DECODER_PATH_LIST = ['model/decoder-20-256-512-11312-1-203.pth',
-                                  'model/decoder-20-256-512-11312-2-192.pth',
-                                  'model/decoder-20-256-512-11312-3-211.pth',
-                                  'model/decoder-20-256-512-11312-4-229.pth',
-                                  'model/decoder-20-256-512-11312-5-254.pth',
-                                  'model/decoder-20-256-512-11312-6-231.pth']
+        # Set encoder and decoder model pathes to compare
+        self.ENCODER_PATH_LIST = ['model/encoder-10-256-512-11312-2-215.pth',
+                                  'model/encoder-20-256-512-11312-2-188.pth']
+        self.DECODER_PATH_LIST = ['model/decoder-10-256-512-11312-2-215.pth',
+                                  'model/decoder-20-256-512-11312-2-188.pth']
 
-        self.NUM_LAYERS_LIST = [1, 2, 3, 4, 5, 6]
+        # Set the number of layers of the models to compare
+        self.NUM_LAYERS_LIST = [2, 2]
 
         # Change relative path to absolute path
         self.TEST_CAPTION_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), self.TEST_CAPTION_PATH)

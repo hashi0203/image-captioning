@@ -1,0 +1,33 @@
+
+---------------------
+date: 2021-06-05 22:59:01
+encoder model: /path/to/image-captioning/model/encoder.pth
+decoder model: /path/to/image-captioning/model/decoder.pth
+
+file name: 0.jpg
+  1.log p = -7.278 '<start> a brown and white cat sitting in the grass <end>'
+  2.log p = -7.960 '<start> a close up of a cat in a yard <end>'
+  3.log p = -8.611 '<start> a close up of a cat in a grass field <end>'
+  4.log p = -9.025 '<start> a close up of a cat in a grassy area <end>'
+  5.log p = -11.915 '<start> a close up of a cat in a yard with a ball <end>'
+
+file name: 1.jpg
+  1.log p = -3.628 '<start> a red double decker bus driving down a street <end>'
+  2.log p = -4.503 '<start> a red double decker bus driving down the street <end>'
+  3.log p = -5.199 '<start> a red double decker bus on a city street <end>'
+  4.log p = -5.311 '<start> a red double decker bus driving down a city street <end>'
+  5.log p = -5.877 '<start> a red and white double decker bus driving down a street <end>'
+
+file name: 2.jpg
+  1.log p = -6.057 '<start> a group of people sitting around a table eating food <end>'
+  2.log p = -6.169 '<start> a group of people sitting around a table <end>'
+  3.log p = -6.349 '<start> a group of people sitting at a table eating food <end>'
+  4.log p = -6.504 '<start> a group of people that are sitting around a table <end>'
+  5.log p = -7.105 '<start> a group of people sitting around a table eating pizza <end>'
+
+file name: 3.jpg
+  1.log p = -3.828 '<start> a man riding a wave on top of a surfboard <end>'
+  2.log p = -4.240 '<start> a man riding a wave on a surfboard <end>'
+  3.log p = -4.518 '<start> a man riding a surfboard on a wave in the ocean <end>'
+  4.log p = -4.890 '<start> a man on a surfboard riding a wave <end>'
+  5.log p = -5.092 '<start> a man on a surf board riding a wave <end>'

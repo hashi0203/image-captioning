@@ -1,4 +1,13 @@
+__pycache__
+data/*
+!data/train
+data/train/*
+!data/val
+data/val/*
+log/*
+!log/compare_images
+log/compare_images/*
+model/*
 *.out
 *.sh
-/data/*
-/model/
+*.pth

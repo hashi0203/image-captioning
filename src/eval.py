@@ -17,9 +17,8 @@ def date_print(str):
 
 def evalate():
     # Choose Device
-    dev = 'cuda' if torch.cuda.is_available() else 'cpu'
-    date_print("Running in "+dev+".")
-    device = torch.device(dev)
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    date_print("Running in %s." % device)
 
     # Import (hyper)parameters
     config = Config()
@@ -45,12 +44,12 @@ def evalate():
 
     date_print("Loading Data.")
     crop_size = (224,224)
-    trans = transforms.Compose([ 
+    trans = transforms.Compose([
             transforms.Resize(crop_size),
-            transforms.RandomHorizontalFlip(), 
-            transforms.ToTensor(), 
-            transforms.Normalize((0.485, 0.456, 0.406), 
-                                (0.229, 0.224, 0.225))])
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
+    ])
     testset = dset.CocoCaptions(root=TEST_IMAGE_PATH, annFile=TEST_CAPTION_PATH, transform=trans)
 
     # Write log info
@@ -65,12 +64,11 @@ def evalate():
     print('decoder model: {}'.format(DECODER_PATH))
 
     # Build models
-    # for decoder cpu is faster
-    decoder_device = torch.device('cpu')
-    encoder = EncoderCNN(EMBEDDING_DIM).eval()
+    encoder = EncoderCNN(EMBEDDING_DIM)
+    encoder = encoder.to(device).eval()
+
     decoder = DecoderRNN(EMBEDDING_DIM, HIDDEN_DIM, VOCAB_SIZE, NUM_LAYERS, MAX_SEG_LENGTH)
-    encoder = encoder.to(device)
-    decoder = decoder.to(decoder_device)
+    decoder = decoder.to(device).eval()
 
     # Load the trained model parameters
     encoder.load_state_dict(torch.load(ENCODER_PATH))
@@ -92,9 +90,9 @@ def evalate():
                 print("{}.bleu score = {:.3f}".format(i, score))
             # Generate an caption from the image
             image = torch.unsqueeze(image, 0).to(device)
-            feature = encoder(image)
-            feature = feature.to(decoder_device)
-            sampled_ids = decoder.beam_search(feature, BEAM_SIZE, END_ID, decoder_device, progress=False)
+            with torch.no_grad():
+                feature = encoder(image)
+                sampled_ids = decoder.beam_search(feature, BEAM_SIZE, END_ID)
 
             # Convert word_ids to words (only most probable one)
             sampled_id = sampled_ids[0][0].cpu().numpy()

@@ -17,9 +17,8 @@ def date_print(str):
 
 def train():
     # Choose Device
-    dev = 'cuda' if torch.cuda.is_available() else 'cpu'
-    date_print("Running in "+dev+".")
-    device = torch.device(dev)
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    date_print("Running in %s." % device)
 
     # Import (hyper)parameters
     config = Config()
@@ -58,28 +57,26 @@ def train():
             pbar.set_description("[Epoch %d]" % (epoch + 1))
             for i, (images, captions,lengths) in enumerate(pbar):
                 # Set mini-batch dataset
-                images = images.to(device)
-                captions = captions.to(device)
+                images, captions = images.to(device), captions.to(device)
                 targets = pack_padded_sequence(captions, lengths, batch_first=True)[0]
-                
+                optimizer.zero_grad()
+
                 # Forward, backward and optimize
                 features = encoder(images)
                 outputs = decoder(features, captions, lengths)
                 loss = criterion(outputs, targets)
-                decoder.zero_grad()
-                encoder.zero_grad()
                 loss.backward()
                 optimizer.step()
 
             # Print log info
-            date_print('Epoch {}, Loss: {:.4f}, Perplexity: {:5.4f}'.format(epoch+1, loss.item(), np.exp(loss.item()))) 
-                
+            date_print('Epoch {}, Loss: {:.4f}, Perplexity: {:5.4f}'.format(epoch+1, loss.item(), np.exp(loss.item())))
+
             # Save the model
-            ENCODER_FILE = '{}/encoder-{}-{}-{}-{}-{}-{:.0f}.pth'.format(MODEL_PATH,epoch+1,EMBEDDING_DIM,HIDDEN_DIM,VOCAB_SIZE,NUM_LAYERS,loss.item()*100)
+            ENCODER_FILE = '{}/encoder-{:02d}-{}-{:.0f}.pth'.format(MODEL_PATH,epoch+1,NUM_LAYERS,loss.item()*100)
             torch.save(encoder.to('cpu').state_dict(), ENCODER_FILE)
             encoder.to(device)
 
-            DECODER_FILE = '{}/decoder-{}-{}-{}-{}-{}-{:.0f}.pth'.format(MODEL_PATH,epoch+1,EMBEDDING_DIM,HIDDEN_DIM,VOCAB_SIZE,NUM_LAYERS,loss.item()*100)
+            DECODER_FILE = '{}/decoder-{:02d}-{}-{:.0f}.pth'.format(MODEL_PATH,epoch+1,NUM_LAYERS,loss.item()*100)
             torch.save(decoder.to('cpu').state_dict(), DECODER_FILE)
             decoder.to(device)
 
