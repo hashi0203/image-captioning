@@ -54,7 +54,7 @@ Refer to the [official page](https://pypi.org/project/torchtext/) for the versio
 		```
 3. Download 'punkt'.
 
-In the environment you want you use, please execute the following command.
+	In the environment you want you use, please execute the following command.
 
 	```bash
 	$ python3 -c "import nltk; nltk.download('punkt')"

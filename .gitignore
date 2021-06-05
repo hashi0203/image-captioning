@@ -2,12 +2,16 @@ __pycache__
 data/*
 !data/train
 data/train/*
+!data/train/.gitkeep
 !data/val
 data/val/*
+!data/val/.gitkeep
 log/*
 !log/compare_images
 log/compare_images/*
+!log/compare_images/.gitkeep
 model/*
+!model/.gitkeep
 *.out
 *.sh
 *.pth
