@@ -40,18 +40,13 @@ Refer to the [official page](https://pypi.org/project/torchtext/) for the versio
 	```bash
 	$ git clone https://github.com/hashi0203/image-captioning.git
 	```
-2. There are some options to construct the environment.
+2. Construct the environment.
 
-	 - pipenv
-		```bash
-		$ cd image-captioning
-		$ pipenv install
-		```
-	 - pip
-		```bash
-		$ cd image-captioning
-		$ pip install -r requirements.txt
-		```
+	```bash
+	$ cd image-captioning
+	$ pip install -r requirements.txt
+	```
+
 3. Download 'punkt'.
 
 	In the environment you want you use, please execute the following command.
