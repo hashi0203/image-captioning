@@ -23,7 +23,7 @@ You can download models here.
 - Python==3.8.5
 - nltk==3.6.2
 - numpy==1.20.3
-- Pillow==8.2.0
+- Pillow==8.3.2
 - pycocotools==2.0.2
 - torch==1.4.0
 - torchvision==0.5.0
